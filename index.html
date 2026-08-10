@@ -283,7 +283,9 @@ code.k { background: #ececee; border-radius: 3px; padding: 1px 5px; font-family:
       <input type="password" id="gate-newpw" placeholder="New password" autocomplete="new-password">
       <div style="margin-top:14px;"><button class="primary" style="width:100%;" onclick="App.setInitialPassword()">Save and sign in</button></div>
     </div>
+    <div id="gate-note" class="banner info" style="display:none; margin-top:12px;"></div>
     <div id="gate-err" class="banner err" style="display:none; margin-top:12px;"></div>
+    <div id="gate-storage" class="banner err" style="display:none; margin-top:12px;">This browser is blocking local storage, which usually means a private or incognito window. Sign-in and saved work will not survive here; use a normal browser window.</div>
   </div>
 </div>
 
@@ -822,10 +824,22 @@ var Central = {
   }
 };
 
-/* ---------- Optional shared cloud store (Firestore via REST) ---------- */
+/* ---------- Shared cloud store (Firestore via REST) ----------
+   DEFAULT_FB bakes the shared-store connection into this file so every
+   device on the team connects without any per-browser setup. Fill in the
+   two values below through the GitHub editor (repository, open index.html,
+   pencil icon, edit, commit). Settings can still override them per device.
+   The web API key is designed to be client-visible; access to the data is
+   what the honesty caveat covers. */
+var DEFAULT_FB = {
+  project: '',
+  key: ''
+};
 var Cloud = {
+  status: { state: 'off', detail: 'The shared store is not configured.' },
+  setStatus: function(state, detail){ Cloud.status = { state: state, detail: detail || '' }; },
   cfg: function(){
-    return { pid: Store.get('fb_project') || '', key: Store.get('fb_key') || '' };
+    return { pid: Store.get('fb_project') || DEFAULT_FB.project || '', key: Store.get('fb_key') || DEFAULT_FB.key || '' };
   },
   on: function(){ var c = Cloud.cfg(); return !!(c.pid && c.key); },
   url: function(col, id){
@@ -846,37 +860,52 @@ var Cloud = {
       body: JSON.stringify({ fields: { actor: {stringValue: e.actor}, action: {stringValue: e.action}, ts: {stringValue: e.ts}, detail: {stringValue: e.detail} } })
     }).catch(function(){});
   },
+  explainError: function(body, fallback){
+    var msg = body && body.error && body.error.message ? String(body.error.message) : (fallback || 'The shared store did not accept the request.');
+    if (/PERMISSION_DENIED/i.test(msg)) return 'The shared store refused access. The Firestore test-mode rules have probably expired: open the Firebase console, Firestore Database, Rules, and set allow read, write: if true.';
+    if (/API key not valid|API_KEY/i.test(msg)) return 'The shared store web API key is not valid. Check the key in Settings or in the file.';
+    if (/project|NOT_FOUND/i.test(msg)) return 'The shared store project was not found. Check the project ID.';
+    return 'The shared store returned an error: ' + msg.slice(0, 140);
+  },
   pushUser: function(email){
-    if (!Cloud.on()) return;
+    if (!Cloud.on()){ Cloud.setStatus('off', 'The shared store is not configured, so this user exists only on this device.'); return; }
     var rec = hubUsers()[email];
     var id = email.replace(/[^a-z0-9]/gi, '_');
     fetch(Cloud.url('users', id), {
       method: 'PATCH', headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ fields: { json: { stringValue: JSON.stringify({ email: email, rec: rec }) } } })
-    }).catch(function(){});
+    }).then(function(r){
+      if (!r.ok) return r.json().catch(function(){ return null; }).then(function(b){ Cloud.setStatus('error', Cloud.explainError(b)); });
+      Cloud.setStatus('ok', 'Access changes are reaching the shared store.');
+    }).catch(function(){ Cloud.setStatus('error', 'The shared store could not be reached. Check the network or an ad blocker on firestore.googleapis.com.'); });
   },
   pushHubAccount: function(a){
     if (!Cloud.on()) return;
     fetch(Cloud.url('accounts', a.id), {
       method: 'PATCH', headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ fields: { json: { stringValue: JSON.stringify(a) } } })
-    }).catch(function(){});
+    }).then(function(r){
+      if (!r.ok) return r.json().catch(function(){ return null; }).then(function(b){ Cloud.setStatus('error', Cloud.explainError(b)); });
+    }).catch(function(){ Cloud.setStatus('error', 'The shared store could not be reached.'); });
   },
   refreshAccess: function(){
     /* Pull the user list and overview accounts before deciding levels. Cloud wins. */
-    if (!Cloud.on()) return Promise.resolve(false);
+    if (!Cloud.on()){ Cloud.setStatus('off', 'The shared store is not configured.'); return Promise.resolve(false); }
+    var pulled = 0;
     return fetch(Cloud.url('users')).then(function(r){ return r.json(); }).then(function(data){
+      if (data && data.error) throw { fb: data };
       var docs = (data && data.documents) || [];
       var users = hubUsers();
       for (var i = 0; i < docs.length; i++){
         try {
           var o = JSON.parse(docs[i].fields.json.stringValue);
-          if (o.email && o.rec) users[o.email] = o.rec;
+          if (o.email && o.rec){ users[o.email] = o.rec; pulled++; }
         } catch(e){}
       }
       saveHubUsers(users);
       return fetch(Cloud.url('accounts'));
     }).then(function(r){ return r.json(); }).then(function(data){
+      if (data && data.error) throw { fb: data };
       var docs = (data && data.documents) || [];
       var local = overviewAccounts();
       var byId = {};
@@ -889,8 +918,12 @@ var Cloud = {
         } catch(e){}
       }
       saveOverviewAccounts(local);
+      Cloud.setStatus('ok', 'Connected. ' + pulled + ' user record' + (pulled === 1 ? '' : 's') + ' pulled from the shared store.');
       return true;
-    }).catch(function(){ return false; });
+    }).catch(function(err){
+      Cloud.setStatus('error', err && err.fb ? Cloud.explainError(err.fb) : 'The shared store could not be reached. Check the network or an ad blocker on firestore.googleapis.com.');
+      return false;
+    });
   },
   refresh: function(){
     if (!Cloud.on()) return Promise.resolve('The shared store is not configured. The studio is running local-only.');
@@ -1324,6 +1357,18 @@ App.signIn = function(){
   }
   App.pendingUser = email;
   var rec = hubUsers()[email];
+  /* If this device does not know the email or the password does not match,
+     pull the latest access list from the shared store once, then re-check. */
+  if (Cloud.on() && !App._gateSynced && (!rec || !rec.hash || (SUPER_ADMINS.indexOf(email) < 0 && !checkPassword(email, pw)))){
+    App._gateSynced = true;
+    var note = document.getElementById('gate-note');
+    if (note){ note.textContent = 'Checking access with the shared store.'; note.style.display = 'block'; }
+    Cloud.refreshAccess().then(function(){
+      if (note) note.style.display = 'none';
+      App.signIn();
+    });
+    return;
+  }
   if (SUPER_ADMINS.indexOf(email) >= 0){
     if (!rec || !rec.hash){
       /* First run for an owner email: security question, then create the password. */
@@ -1642,16 +1687,24 @@ PAGES.home = function(){
       '</div></div>';
   });
   h += '</div>';
-  if (!Cloud.on()) h += '<div class="banner info">The shared store is not configured, so access grants and uploaded overviews apply only on this device. A super admin can configure it from any account workspace under Settings.</div>';
+  if (!Store.usable()) h += '<div class="banner err">This browser is blocking local storage, which usually means a private or incognito window. Nothing entered here will survive; use a normal browser window.</div>';
+  var hs = Cloud.status || { state: 'off' };
+  if (hs.state === 'error' && isSuper()) h += '<div class="banner warn">' + esc('Shared store problem. ' + (hs.detail || '')) + '</div>';
+  else if (hs.state === 'off' && isSuper()) h += '<div class="banner info">The shared store is not connected, so access grants and uploaded overviews apply only on this device. Connect it in any workspace under Settings, or bake the project ID and key into the file so every device connects automatically.</div>';
   return h;
 };
 
 /* ---------- Access panel, super admin only ---------- */
 PAGES.access = function(){
   if (!isSuper()) return '<p class="muted">Nothing to show.</p>';
-  var studios = allAccounts().filter(function(a){ return a.type === 'studio'; });
   var users = hubUsers();
-  var h = '<h1>Access</h1><p class="muted">Everyone listed here can sign in and read every account summary. Full studio access and Oversight rights are granted per account. Changes take effect at the next render and are written to the action log' + (Cloud.on() ? ' and the shared store.' : '. The shared store is not configured, so grants made here apply only on this device.') + '</p>';
+  var studios = allAccounts().filter(function(a){ return a.type === 'studio'; });
+  var h = '<h1>Access</h1><p class="muted">Everyone listed here can sign in and read every account summary. Full studio access and Oversight rights are granted per account. Changes take effect at the next render and are written to the action log.</p>';
+  var st = Cloud.status || { state: 'off', detail: '' };
+  var stCls = st.state === 'ok' ? 'ok' : st.state === 'error' ? 'err' : 'warn';
+  var stLead = st.state === 'ok' ? 'Shared store: connected. ' : st.state === 'error' ? 'Shared store problem. ' : 'Shared store: not configured. Users added here can sign in only on this device until it is connected. ';
+  h += '<div class="banner ' + stCls + '">' + esc(stLead + (st.detail || '')) + ' <button class="mini" style="margin-left:8px;" onclick="App.syncAccess()">Sync now</button></div>';
+  h += '<p class="small muted">' + Object.keys(users).length + ' user' + (Object.keys(users).length === 1 ? '' : 's') + ' known on this device.</p>';
   h += '<div class="card"><h3>Add a user</h3><div class="row2">' +
     '<input type="text" id="au-email" placeholder="email@futurebridge.com" style="max-width:260px;">' +
     '<input type="text" id="au-pw" placeholder="Temporary password" style="max-width:200px;">' +
@@ -1678,6 +1731,9 @@ PAGES.access = function(){
   });
   h += '</table></div>';
   return h;
+};
+App.syncAccess = function(){
+  Cloud.refreshAccess().then(function(){ render(); });
 };
 App.addHubUser = function(){
   var em = (document.getElementById('au-email').value || '').trim().toLowerCase();
@@ -2799,6 +2855,10 @@ App.testConn = function(){
     document.getElementById('app').classList.add('on');
     render();
     Cloud.refreshAccess().then(function(changed){ if (changed) render(); });
+  }
+  if (!Store.usable()){
+    var sb = document.getElementById('gate-storage');
+    if (sb) sb.style.display = 'block';
   }
   [['gate-email', App.signIn], ['gate-pw', App.signIn], ['gate-answer', App.answerQuestion], ['gate-newpw', App.setInitialPassword]].forEach(function(pair){
     var el = document.getElementById(pair[0]);
