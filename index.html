@@ -157,6 +157,12 @@ code.k { background: #ececee; border-radius: 3px; padding: 1px 5px; font-family:
 .tile-foot { display: flex; align-items: center; justify-content: space-between; padding: 12px 22px 16px 22px; }
 .tile-open { font-size: 12.5px; font-weight: bold; color: #1c1c22; }
 .tile:hover .tile-open { color: #F84E5D; }
+.tile.add { border: 2px dashed #c2c2c8; background: transparent; box-shadow: none; align-items: stretch; }
+.tile.add:hover { border-color: #4B4B55; transform: none; }
+.add-in { display: flex; gap: 14px; align-items: center; padding: 22px; }
+.add-plus { font-size: 30px; color: #9a9aa2; line-height: 1; }
+.rail-signout { display: inline-block; margin-top: 6px; color: #d6d6da; cursor: pointer; text-decoration: underline; text-decoration-color: #4B4B55; }
+.rail-signout:hover { color: #ffffff; }
 /* Click-level detail sections */
 details.xd { border: 1px solid #d9d9dd; border-radius: 8px; background: #ffffff; margin-bottom: 10px; }
 details.xd > summary { cursor: pointer; padding: 14px 20px; font-weight: bold; font-size: 14px; list-style: none; display: flex; align-items: center; justify-content: space-between; }
@@ -867,7 +873,7 @@ function sha256(ascii){
 /* ---------- Identity and roles ---------- */
 var SUPER_ADMINS = ['kayvee.pro@gmail.com','siva.prasad@futurebridge.com'];
 var SEC_QUESTION = 'What was the make of your first car?';
-var SEC_HASH = '48e4aa663a55060550ab7c35286f63e9f4c642ebdd94ec8e3ead156d528025bf';
+var SEC_HASH = 'ac85892205b92e8cecdc87185a3fbf039f04b2a7751ccf0e8a1f547d53b9945a';
 
 function answeredMap(){ return Store.getJSON('sa_answered', {}); }
 function isSuper(){
@@ -883,6 +889,21 @@ function randSalt(){
   var s = '';
   for (var i = 0; i < 16; i++) s += Math.floor(Math.random() * 16).toString(16);
   return s;
+}
+/* Owner accounts ship pre-provisioned so the first sign-in on any device
+   works immediately. The password can and should be changed in Settings;
+   a change overrides this seed everywhere through the shared store. */
+var OWNER_SEED = { salt: 'fb2026seed', hash: 'ba9545581f701591077e4ebfc4318d338065686896aaa9b30b6fbdd83b20184f' };
+function seedOwnerPasswords(){
+  var users = hubUsers();
+  var changed = false;
+  SUPER_ADMINS.forEach(function(e){
+    if (!users[e] || !users[e].hash){
+      users[e] = { salt: OWNER_SEED.salt, hash: OWNER_SEED.hash, levels: (users[e] && users[e].levels) || {}, admins: (users[e] && users[e].admins) || {} };
+      changed = true;
+    }
+  });
+  if (changed) saveHubUsers(users);
 }
 function setUserPassword(email, pw){
   var users = hubUsers();
@@ -923,7 +944,7 @@ var Log = {
     var entries = Store.getJSON('action_log', []);
     var e = { ts: nowIso(), actor: App.user || 'unknown', action: action, detail: String(detail || '') };
     entries.push(e);
-    if (entries.length > 6000) entries = entries.slice(entries.length - 6000);
+    if (entries.length > 12000) entries = entries.slice(entries.length - 12000);
     Store.setJSON('action_log', entries);
     Cloud.pushLog(e);
   },
@@ -1763,12 +1784,16 @@ var NAV = [
   { id: 'settings',  label: 'Settings' }
 ];
 
-App.go = function(page){ App.page = page; render(); };
-App.goTab = function(tab){ App.tab = tab; render(); };
+App.go = function(page){
+  App.page = page;
+  if (App.account && page !== 'summary') Log.add('view', App.account + ' / ' + page);
+  render();
+};
+App.goTab = function(tab){ App.tab = tab; Log.add('view', App.account + ' / contacts / ' + tab); render(); };
 App.goHome = function(){ App.account = null; App.page = 'home'; render(); };
 App.openAccount = function(id){
   App.account = id; App.page = 'summary'; App.tab = 'profiles';
-  Log.add('edit', 'opened account ' + id);
+  Log.add('view', 'account opened: ' + id);
   render();
 };
 
@@ -1783,6 +1808,7 @@ function render(){
     html += '<div class="rail-item' + (App.page === 'home' ? ' on' : '') + '" onclick="App.goHome()"><span>All accounts</span></div>';
     if (isSuper()){
       html += '<div class="rail-item' + (App.page === 'access' ? ' on' : '') + '" onclick="App.go(\'access\')"><span>Access</span></div>';
+      html += '<div class="rail-item' + (App.page === 'activity' ? ' on' : '') + '" onclick="App.go(\'activity\')"><span>Activity</span></div>';
       html += '<div class="rail-item' + (App.page === 'newstudio' ? ' on' : '') + '" onclick="App.go(\'newstudio\')"><span>New account studio</span></div>';
       html += '<div class="rail-item' + (App.page === 'newov' ? ' on' : '') + '" onclick="App.go(\'newov\')"><span>New account overview</span></div>';
     }
@@ -1804,10 +1830,10 @@ function render(){
     });
   }
   nav.innerHTML = html;
-  document.getElementById('rail-user').innerHTML = 'Signed in as<br>' + esc(App.user);
+  document.getElementById('rail-user').innerHTML = 'Signed in as<br>' + esc(App.user) + '<br><span class="rail-signout" onclick="App.signOut()">Sign out</span>';
   var page = document.getElementById('page');
   /* Access is enforced here, at render time, for every page of every account. */
-  if (App.account && App.page !== 'summary' && !canFull(App.account)){
+  if (App.account && App.page !== 'summary' && App.page !== 'settings' && !canFull(App.account)){
     page.innerHTML = '<p class="muted">Nothing to show.</p>';
     return;
   }
@@ -1857,7 +1883,18 @@ PAGES.home = function(){
       (a.dynamic && isSuper() ? '<button class="mini danger" onclick="event.stopPropagation();App.deleteOverview(\'' + a.id + '\')">Delete</button>' : '') +
       '</div></div>';
   });
+  if (isSuper()){
+    h += '<div class="tile add" onclick="App.go(\'newstudio\')"><div class="add-in"><div class="add-plus">+</div><div><b>Add an account studio</b><br><span class="small muted">From a brief or a prepared layer. The full machinery, no development.</span></div></div></div>';
+    h += '<div class="tile add" onclick="App.go(\'newov\')"><div class="add-in"><div class="add-plus">+</div><div><b>Add an account overview</b><br><span class="small muted">A readable tile from a pasted or uploaded document.</span></div></div></div>';
+  }
   h += '</div>';
+  if (SUPER_ADMINS.indexOf(App.user) >= 0 && !isSuper()){
+    h += '<div class="banner warn" style="margin-top:16px;"><b>Administrator access is locked on this browser.</b> Your email is an owner email, but the security question has not been answered correctly here, so the Access, Activity and account-creation controls stay hidden. Answer it below to unlock them.' +
+      '<div class="row2" style="margin-top:10px;"><span class="small">' + esc(SEC_QUESTION) + '</span>' +
+      '<input type="password" id="unlock-ans" placeholder="Answer" style="max-width:200px;">' +
+      '<button class="mini primary" onclick="App.unlockAdmin()">Unlock</button></div>' +
+      (App.unlockNote ? '<p class="small" style="margin-top:6px;">' + esc(App.unlockNote) + '</p>' : '') + '</div>';
+  }
   if (!Store.usable()) h += '<div class="banner err" style="margin-top:16px;">This browser is blocking local storage, which usually means a private or incognito window. Nothing entered here will survive; use a normal browser window.</div>';
   var hs = Cloud.status || { state: 'off' };
   if (hs.state === 'error' && isSuper()) h += '<div class="banner warn" style="margin-top:16px;">' + esc('Shared store problem. ' + (hs.detail || '')) + '</div>';
@@ -1905,6 +1942,17 @@ PAGES.access = function(){
 };
 App.syncAccess = function(){
   Cloud.refreshAccess().then(function(){ render(); });
+};
+App.unlockAdmin = function(){
+  var ans = (document.getElementById('unlock-ans').value || '').toLowerCase().replace(/\s+/g, '');
+  if (sha256(ans) === SEC_HASH){
+    var m = answeredMap(); m[App.user] = true; Store.setJSON('sa_answered', m);
+    App.unlockNote = '';
+    Log.add('sign in', 'administrator access unlocked');
+  } else {
+    App.unlockNote = 'That answer did not match. Nothing has changed.';
+  }
+  render();
 };
 App.addHubUser = function(){
   var em = (document.getElementById('au-email').value || '').trim().toLowerCase();
@@ -2010,6 +2058,61 @@ App.deleteOverview = function(id){
   saveOverviewAccounts(overviewAccounts().filter(function(x){ return x.id !== id; }));
   Log.add('delete', 'overview account removed: ' + (a ? a.name : id));
   render();
+};
+
+/* ---------- Activity, super admin only ---------- */
+PAGES.activity = function(){
+  if (!isSuper()) return '<p class="muted">Nothing to show.</p>';
+  var entries = Log.all();
+  var by = {};
+  entries.forEach(function(e){
+    var u = by[e.actor] = by[e.actor] || { signins: 0, views: 0, edits: 0, generates: 0, approves: 0, exports: 0, downloads: 0, deletes: 0, research: 0, sent: 0, first: e.ts, last: e.ts, lastSignin: '' };
+    if (e.ts < u.first) u.first = e.ts;
+    if (e.ts > u.last) u.last = e.ts;
+    if (e.action === 'sign in'){ u.signins++; if (e.ts > u.lastSignin) u.lastSignin = e.ts; }
+    else if (e.action === 'view') u.views++;
+    else if (e.action === 'edit') u.edits++;
+    else if (e.action === 'generate') u.generates++;
+    else if (e.action === 'approve') u.approves++;
+    else if (e.action === 'export') u.exports++;
+    else if (e.action === 'download') u.downloads++;
+    else if (e.action === 'delete') u.deletes++;
+    else if (e.action === 'research') u.research++;
+    else if (e.action === 'sent-mark') u.sent++;
+  });
+  var h = '<h1>Activity</h1><p class="muted">Who signed in, when and how often, what they opened, edited, generated, approved, exported and downloaded. Built from the action log on this device' + (Cloud.on() ? ' merged with the shared store.' : '. Connect the shared store to see activity from other devices.') + '</p>';
+  h += '<div class="row2" style="margin-bottom:12px;">' +
+    (Cloud.on() ? '<button class="mini" onclick="App.activityRefresh()">Pull latest from the shared store</button>' : '') +
+    '<button class="mini" onclick="App.exportLog()">Export the full log as CSV</button></div>';
+  if (App.actNote) h += '<div class="banner info">' + esc(App.actNote) + '</div>';
+  h += '<div class="card"><h2>By person</h2><table class="grid"><tr><th>User</th><th>Sign-ins</th><th>Last sign-in</th><th>Views</th><th>Edits</th><th>Generated</th><th>Approved</th><th>Exports</th><th>Downloads</th><th>Last activity</th></tr>';
+  Object.keys(by).sort().forEach(function(u){
+    var r = by[u];
+    h += '<tr><td><b>' + esc(u) + '</b></td><td>' + r.signins + '</td><td class="small">' + fmtDateTime(r.lastSignin) + '</td><td>' + r.views + '</td><td>' + r.edits + '</td><td>' + r.generates + '</td><td>' + r.approves + '</td><td>' + r.exports + '</td><td>' + r.downloads + '</td><td class="small">' + fmtDateTime(r.last) + '</td></tr>';
+  });
+  h += '</table></div>';
+  var af = (App.actFilter || '').toLowerCase();
+  var sel = App.actAction || '';
+  var actions = ['sign in','sign out','view','edit','generate','approve','export','download','delete','research','sent-mark'];
+  h += '<div class="card"><h2>The full trail, newest first</h2><div class="row2" style="margin-bottom:8px;">' +
+    '<input type="text" placeholder="Filter by person or detail" value="' + esc(App.actFilter || '') + '" style="max-width:260px;" onchange="App.actFilter=this.value;render()">' +
+    '<select style="max-width:170px;" onchange="App.actAction=this.value;render()"><option value="">All actions</option>' +
+    actions.map(function(a){ return '<option value="' + a + '"' + (sel === a ? ' selected' : '') + '>' + a + '</option>'; }).join('') + '</select></div>';
+  var list = entries.filter(function(e){
+    if (sel && e.action !== sel) return false;
+    if (af && (e.actor + ' ' + e.detail).toLowerCase().indexOf(af) < 0) return false;
+    return true;
+  });
+  h += '<table class="grid"><tr><th>When</th><th>Who</th><th>Action</th><th>Detail</th></tr>';
+  list.slice(-400).reverse().forEach(function(e){
+    h += '<tr><td class="small">' + fmtDateTime(e.ts) + '</td><td class="small">' + esc(e.actor) + '</td><td class="small">' + esc(e.action) + '</td><td class="small">' + esc(e.detail) + '</td></tr>';
+  });
+  h += '</table><p class="small muted">' + list.length + ' entries match. The log keeps the most recent 12,000 actions.</p></div>';
+  return h;
+};
+App.activityRefresh = function(){
+  App.actNote = 'Pulling the shared record.'; render();
+  Cloud.refresh().then(function(msg){ App.actNote = msg; render(); });
 };
 
 /* ---------- New account studio, super admin only ---------- */
@@ -2170,7 +2273,7 @@ App.downloadDoc = function(acctId){
   el.download = doc.name || 'account-overview.docx';
   document.body.appendChild(el); el.click();
   setTimeout(function(){ URL.revokeObjectURL(el.href); el.remove(); }, 400);
-  Log.add('export', 'source document downloaded: ' + (a ? a.name : acctId));
+  Log.add('download', 'source document: ' + (a ? a.name : acctId));
 };
 function wedgesHtml(){
   var h = '<h2 style="margin-top:22px;">The openings, ranked by nearness of the decision</h2>';
@@ -3177,8 +3280,9 @@ App.cloudRefresh = function(){
 
 /* ---------- Settings ---------- */
 PAGES.settings = function(){
+  var full = canFull(App.account);
   var h = '<h1>Settings</h1>';
-  h += '<div class="card"><h2>Model access</h2>' +
+  if (full) h += '<div class="card"><h2>Model access</h2>' +
     '<label class="f">Anthropic API key</label><input type="password" id="st-key" value="' + esc(Store.get('anthropic_key') || '') + '" placeholder="sk-ant-...">' +
     '<label class="f">Writing model</label><select id="st-model">';
   MODELS.forEach(function(m){
@@ -3191,13 +3295,13 @@ PAGES.settings = function(){
     '<div class="row2" style="margin-top:12px;"><button class="mini" onclick="App.testConn()">Test connection</button></div>' +
     (App.connNote ? '<div class="banner info" style="margin-top:10px;">' + App.connNote + '</div>' : '') +
     '</div>';
-  h += '<div class="card"><h2>Voice</h2>' +
+  if (full) h += '<div class="card"><h2>Voice</h2>' +
     '<label class="f">Email sign-off</label><select id="st-signoff">' +
     ['Best regards,','Thanks,','Kind regards,'].map(function(s){ return '<option' + (signoff() === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') +
     '</select>' +
     '<label class="f">Sender name</label><input type="text" id="st-sender" value="' + esc(senderName()) + '">' +
     '</div>';
-  h += '<div class="card"><h2>Shared store (optional)</h2>' +
+  if (isSuper()) h += '<div class="card"><h2>Shared store (optional)</h2>' +
     '<p class="small muted">About five minutes to set up: console.firebase.google.com, add a project, Build, Firestore Database, create in test mode, choose a region, then copy the project ID and web API key from project settings into the fields below. Test-mode rules expire after roughly thirty days; replace them with: allow read, write: if true. Anyone holding the key can read and write this store, which is acceptable for internal prospecting data; client-side sign-in in a static file is trust-level access control for a small team, not hardened security. Without the keys the studio runs local-only.</p>' +
     '<label class="f">Firebase project ID</label><input type="text" id="st-fbp" value="' + esc(Store.get('fb_project') || '') + '">' +
     '<label class="f">Web API key</label><input type="password" id="st-fbk" value="' + esc(Store.get('fb_key') || '') + '">' +
@@ -3231,14 +3335,15 @@ App.changeOwnPw = function(){
   render();
 };
 App.saveSettings = function(){
-  Store.set('anthropic_key', document.getElementById('st-key').value.trim());
-  Store.set('pdl_key', document.getElementById('st-pdl').value.trim());
-  Store.set('pplx_key', document.getElementById('st-pplx').value.trim());
-  Store.set('model_choice', document.getElementById('st-model').value);
-  Store.set('signoff', document.getElementById('st-signoff').value);
-  Store.set('sender_name', document.getElementById('st-sender').value.trim() || 'Sarah');
-  Store.set('fb_project', document.getElementById('st-fbp').value.trim());
-  Store.set('fb_key', document.getElementById('st-fbk').value.trim());
+  function v(id){ var el = document.getElementById(id); return el ? el.value : null; }
+  if (v('st-key') != null) Store.set('anthropic_key', v('st-key').trim());
+  if (v('st-pdl') != null) Store.set('pdl_key', v('st-pdl').trim());
+  if (v('st-pplx') != null) Store.set('pplx_key', v('st-pplx').trim());
+  if (v('st-model') != null) Store.set('model_choice', v('st-model'));
+  if (v('st-signoff') != null) Store.set('signoff', v('st-signoff'));
+  if (v('st-sender') != null) Store.set('sender_name', v('st-sender').trim() || 'Sarah');
+  if (v('st-fbp') != null) Store.set('fb_project', v('st-fbp').trim());
+  if (v('st-fbk') != null) Store.set('fb_key', v('st-fbk').trim());
   Log.add('edit', 'settings saved');
   render(); /* Re-render so sign-off changes apply to every draft view. */
 };
@@ -3249,6 +3354,7 @@ App.testConn = function(){
 
 /* ---------- Boot ---------- */
 (function boot(){
+  seedOwnerPasswords();
   var remembered = null;
   try { remembered = localStorage.getItem('eas_identity'); } catch(e){}
   var rec = remembered ? hubUsers()[remembered] : null;
