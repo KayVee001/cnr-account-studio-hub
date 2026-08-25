@@ -3052,6 +3052,14 @@ function tabReview(){
   h += '<div class="row2" style="margin-bottom:10px;">' +
     '<button class="mini" onclick="App.reviewShowAll=!App.reviewShowAll;render()">' + (showAll ? 'Show in-review only' : 'Show approved too') + '</button>' +
     '<button class="mini" onclick="App.reviewExport()">Export CSV for HubSpot or mail merge</button></div>';
+  h += '<div class="card"><h3>Import an earlier extraction</h3>' +
+    '<p class="small muted">Rebuilds records from a CSV the studio exported earlier, including from the previous deployment: the contacts are recreated and tagged Old, the mails land in the status you choose, and follow-up touches can then be generated over them in one batch. Columns are matched by name, so the old single-studio exports and the new matrix files both work.</p>' +
+    '<div class="row2">' +
+    '<select id="imp-status" style="max-width:200px;"><option value="approved">Import as Approved</option><option value="review">Import as In review</option><option value="keep">Keep statuses from the file</option></select>' +
+    '<input type="file" id="imp-file" accept=".csv" style="display:none;" onchange="App.importExtraction(this)">' +
+    '<button class="mini primary" onclick="document.getElementById(\'imp-file\').click()">Choose the CSV and import</button></div>' +
+    (App.importNote ? '<div class="banner ok" style="margin-top:10px;">' + esc(App.importNote) + '</div>' : '') +
+    '</div>';
   if (!items.length) h += '<div class="card"><p class="muted">Nothing is waiting for review. Use Save for practice review on any draft and it will appear here for editing and approval.</p></div>';
   items.forEach(function(r){
     var locked = r.status === 'approved';
@@ -3074,6 +3082,95 @@ function tabReview(){
   });
   return h;
 }
+
+/* ---------- Import an earlier extraction ---------- */
+function stripSignoff(body){
+  return String(body || '').replace(/\n\n(Best regards,|Thanks,|Kind regards,)\n[^\n]*\s*$/, '').trim();
+}
+function cleanCell(v){
+  v = String(v == null ? '' : v).trim();
+  return (v === 'Not generated' || v === 'not generated') ? '' : v;
+}
+App.importExtraction = function(input){
+  var f = input.files[0]; if (!f) return;
+  var statusChoice = document.getElementById('imp-status').value;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var rows = parseCSV(String(reader.result || ''));
+    if (rows.length < 2){ alert('That CSV has no data rows.'); return; }
+    var head = rows[0].map(function(x){ return x.trim().toLowerCase(); });
+    function col(names, r){
+      for (var i = 0; i < names.length; i++){
+        var ix = head.indexOf(names[i]);
+        if (ix >= 0) return cleanCell(r[ix]);
+      }
+      return '';
+    }
+    var nameIdx = ['contact name','name'].map(function(n){ return head.indexOf(n); }).filter(function(x){ return x >= 0; })[0];
+    if (nameIdx == null){ alert('The CSV needs a contact name column. Use a file the studio exported.'); return; }
+    var made = 0, contactsMade = 0, touches = 0;
+    var l = contacts();
+    var ids = approvedIds();
+    for (var i = 1; i < rows.length; i++){
+      var r = rows[i];
+      var name = cleanCell(r[nameIdx]);
+      if (!name) continue;
+      var subject = col(['email subject','subject 1','subject'], r);
+      var body = stripSignoff(col(['email body','email 1','body'], r));
+      var inmail = col(['linkedin inmail','inmail 1','inmail'], r);
+      if (!subject && !body) continue;
+      var stFile = (col(['status'], r) || '').toLowerCase();
+      var status = statusChoice === 'keep' ? (stFile === 'review' ? 'review' : 'approved') : statusChoice;
+      var when = col(['timestamp','touch 1 generated at'], r);
+      var rec = Central.record({
+        contact: name,
+        title: col(['role or title','designation','title'], r),
+        company: col(['company'], r) || (ACCT() ? ACCT().company : ''),
+        subject: subject, body: body, inmail: inmail,
+        source: 'imported extraction', status: status,
+        profile: { region: col(['region'], r), remit: col(['remit','key roles'], r), signals: col(['key signals'], r), theme: col(['theme match','theme'], r) }
+      });
+      if (when) Central.update(rec.id, { ts: when, imported: nowIso() });
+      else Central.update(rec.id, { imported: nowIso() });
+      if (status === 'approved' && ids.indexOf(rec.id) < 0) ids.push(rec.id);
+      made++;
+      /* Recreate the contact so batches and sequences can run over it. */
+      var exists = l.filter(function(c){ return c.name.trim().toLowerCase() === name.trim().toLowerCase(); })[0];
+      var c;
+      if (exists){ c = exists; }
+      else {
+        c = { cid: uid(), name: name, company: col(['company'], r) || (ACCT() ? ACCT().company : '') };
+        l.push(c); contactsMade++;
+      }
+      c.title = c.title || col(['role or title','designation','title'], r);
+      c.unit = c.unit || col(['division'], r);
+      c.city = c.city || col(['city'], r);
+      c.country = c.country || col(['country'], r);
+      c.email = c.email || col(['email'], r);
+      c.linkedin = c.linkedin || col(['linkedin','linkedin url'], r);
+      c.old = true;
+      c.draftId = rec.id;
+      c.draft = { subject: subject, email: body, inmail: inmail };
+      /* Carry any exported follow-up touches back in as well. */
+      var t2b = stripSignoff(col(['email 2 (follow-up)','email 2','follow-up email'], r));
+      var t2i = col(['inmail 2 (follow-up)','inmail 2'], r);
+      var t3b = stripSignoff(col(['email 3 (final)','email 3'], r));
+      var t3i = col(['inmail 3 (final)','inmail 3'], r);
+      if (t2b || t2i || t3b || t3i){
+        c.seq = c.seq || { touches: [], stopped: false };
+        if (t2b || t2i){ c.seq.touches[1] = { subject: col(['subject 2'], r) || ('Re: ' + subject), body: t2b, inmail: t2i, ts: col(['touch 2 generated at'], r) || nowIso() }; touches++; }
+        if (t3b || t3i){ c.seq.touches[2] = { subject: col(['subject 3'], r) || ('Re: ' + subject), body: t3b, inmail: t3i, ts: col(['touch 3 generated at'], r) || nowIso() }; touches++; }
+      }
+    }
+    saveContacts(l);
+    saveApprovedIds(ids);
+    App.importNote = made + ' mail' + (made === 1 ? '' : 's') + ' imported, ' + contactsMade + ' contact' + (contactsMade === 1 ? '' : 's') + ' recreated and tagged Old' + (touches ? ', ' + touches + ' existing follow-up touches carried in' : '') + '. Open Contact list, select all, and run Write touch 2 or Write touch 3 to generate the follow-ups.';
+    Log.add('edit', 'imported extraction: ' + made + ' mails, ' + contactsMade + ' contacts');
+    render();
+  };
+  reader.readAsText(f);
+  input.value = '';
+};
 App.reviewSave = function(id){
   Central.update(id, { subject: document.getElementById('rv-su-' + id).value, body: document.getElementById('rv-em-' + id).value, inmail: document.getElementById('rv-in-' + id).value });
   Log.add('edit', 'review edit ' + id); render();
