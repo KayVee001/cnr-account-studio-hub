@@ -366,7 +366,14 @@ var BANNED_LINES = ['not a sales call','I am confident it would be worth the tim
 
 var BANNED_STOCK = ['rarely sits in published data','published data','before capital is committed','positions harden','reference positions','durable advantage','the window is','being set now','is being shaped early','forming views on who should own','we keep hearing','we have been hearing','we\'ve been hearing','something we keep hearing','one thing we keep hearing','since i wrote','since my last note'];
 
-var BANNED_FOLLOWUP = ['just following up','circling back','bumping this','gentle reminder','checking in','wanted to make sure you saw'];
+
+var TOUCH2_CLOSE_EXAMPLES = [
+'If it would be useful to talk this through, I would be glad to set up a short call in the coming weeks.',
+'Should this be worth a short conversation, I would be happy to make time in the next couple of weeks.',
+'If this is a live question for you at the moment, a brief conversation in the next week or two might be worthwhile; there is no urgency from our side.',
+'If any of this lands close to what you are working on, I would welcome a short conversation whenever convenient in the coming weeks.'
+];
+var BANNED_FOLLOWUP = ['just following up','circling back','bumping this','gentle reminder','checking in','wanted to make sure you saw','compare notes','worth comparing notes'];
 
 var EXAMPLE_ONE = 'Hi Mike,\n\nOne thing we are seeing in direct-to-chip cooling is that the service model is being shaped early, before the market has settled.\n\nHyperscale operators, colocation providers, OEMs, integrators and specialist service partners are each forming different views on who should own fluid monitoring, lifecycle assurance, replacement cycles and long-term performance risk. Those relationships are being established now, while the market is still deciding which models will become repeatable.\n\nThe Dow Coolant Care Network positions Chem-Aqua well in that conversation. The strategic question is where to focus first: which customer groups, channel relationships and service positions are most likely to create durable advantage rather than one-off technical support.\n\nThis is the type of market-structure and customer-prioritisation question FutureBridge helps industrial businesses work through.';
 
@@ -384,11 +391,12 @@ var WRITER_METHOD = [
 '- Mention what FutureBridge does once, in fresh plain words each time, as a natural continuation of the thought, never as a tagline or capitalised programme. Different words every draft.',
 '- Bullets only when two genuinely sharp, specific questions exist, each under eighteen words. The default is no bullets.',
 '- The close for a FIRST touch, a hard rule, always this exact sentence: ' + CLOSE_SENTENCE,
-'- Later touches never reuse that sentence. Touch 2 lowers the friction: a short, light ask that fits the person, for example: Worth comparing notes for 15 minutes? or: Is this something you are actively working through at the company? Where the draft already ends on a strong personalised question, that question IS the close and nothing is added after it. Touch 3 ends with an easy question the reader can answer with yes, no or not me.',
+'- Later touches never reuse that sentence. The touch 2 close is one or two short, complete sentences in conditional form (if, should, would, could, might): the writer offers a brief conversation in the coming weeks, from a position of equal standing, never asking for a slot like a supplicant and never naming a duration. These four approved closes show the register; they are register only, and copying any five-word run from them is caught mechanically, so every follow-up finds its own wording: ' + TOUCH2_CLOSE_EXAMPLES.join(' | ') + ' No two follow-ups in a campaign may share the same closing wording. Where the draft already ends on a strong personalised question, that question IS the close, followed at most by one soft offer such as: If it is, I would be glad to share what we could test. Touch 3 ends with an easy question the reader can answer with yes, no or not me.',
 '- The sign-off, a hard rule: the configured sign-off then the sender name on its own line. Nothing else: no titles, no email address, no phone, no links, no firm line. The sender is Sarah; never Dr Sarah.',
 '',
 'HUMANITY GUARDRAILS (the difference between written and generated):',
 '- If a sentence sounds quotable, balanced or symmetrical, rewrite it until it sounds said. Banned constructions: the hard part is not X, it is Y; any not-X-but-Y antithesis; rules of three; aphorisms; verdicts about who will win; sentences that build to a punchline.',
+'- Consequence and verdict thoughts are written as full conditional sentences with could, would or might, never as compact declaratives that deliver a moral. Getting that read wrong is what quietly sinks an early pilot is a slogan; the human version is: If that read is wrong, an early pilot could stall for reasons nobody sees until the budget is spent. Gerund-verdict openers (Getting X wrong is, Choosing well means) and the is-what verdict pattern are caught mechanically.',
 '- Banned stock phrases: ' + BANNED_STOCK.join('; ') + '.',
 '- Read the finished draft back as the recipient. Cut any sentence that tells them something they obviously know. Rewrite any sentence that could go unchanged to a different person or company.',
 '- Hyper-personal means the substance fits only this person. It never means compliments, flattery about their role or career, or naming their achievements back to them.',
@@ -1430,6 +1438,11 @@ function sentenceShingles(text){
   }
   return out;
 }
+var TOUCH2_SHINGLES = (function(){
+  var all = [];
+  TOUCH2_CLOSE_EXAMPLES.forEach(function(x){ all = all.concat(sentenceShingles(x)); });
+  return all;
+})();
 var EXAMPLE_SHINGLES = (function(){
   var skipNouns = ['futurebridge','chem-aqua','dow','mike','amanda','coolant','network'];
   var closeSh = sentenceShingles(CLOSE_SENTENCE);
@@ -1466,6 +1479,15 @@ function scanText(label, text, opts){
   if (opts && opts.titleExact && opts.titleExact.length > 4 && raw.indexOf(opts.titleExact) >= 0) v.push(label + ': the verbatim profile title is pasted into the prose.');
   if (opts && opts.needsClose && raw.indexOf(CLOSE_SENTENCE) < 0) v.push(label + ': the fixed close sentence is missing.');
   if (opts && opts.followup && raw.indexOf(CLOSE_SENTENCE) >= 0) v.push(label + ': the fixed 30-minute close may only be used in touch 1; later touches use a lower-friction ask.');
+  if (opts && opts.followup && /\b\d{1,3}\s?(minute|minutes|mins)\b/i.test(raw)) v.push(label + ': a follow-up ask never names a duration; offer a brief conversation instead.');
+  if (opts && opts.followup){
+    var t2sh = sentenceShingles(raw);
+    for (var q = 0; q < t2sh.length; q++){
+      if (TOUCH2_SHINGLES.indexOf(t2sh[q]) >= 0){ v.push(label + ': copies the approved close register ("' + t2sh[q] + '"); the register shows the tone, the wording must be fresh.'); break; }
+    }
+  }
+  if (/\bis what (quietly|really|actually|ultimately|truly|usually|often)\b/i.test(raw)) v.push(label + ': is-what verdict pattern; write the consequence as a full conditional sentence with could, would or might.');
+  if (/(^|\. |\n)(Getting|Choosing|Missing|Winning|Losing|Picking) [^.\n]{0,50}(is|means) /.test(raw)) v.push(label + ': gerund-verdict opener reads as a slogan; write it as a plain conditional sentence.');
   var sh = sentenceShingles(raw);
   var closeSh = sentenceShingles(CLOSE_SENTENCE);
   for (var i = 0; i < sh.length; i++){
@@ -1498,6 +1520,20 @@ function campaignOpeners(excludeId){
   });
   return out;
 }
+function campaignCloses(){
+  var out = {};
+  Central.all().forEach(function(r){
+    if (r.deleted || r.account !== App.account || !r.touch || r.touch < 2) return;
+    var key = closeKey(r.body);
+    if (key) out[key] = r.contact;
+  });
+  return out;
+}
+function closeKey(body){
+  var sentences = String(body || '').replace(/\s+/g, ' ').split(/(?<=[.?!])\s+/).filter(function(x){ return x.trim(); });
+  if (!sentences.length) return '';
+  return normText(sentences[sentences.length - 1]).replace(/[^a-z0-9\s'-]/g, ' ').replace(/\s+/g, ' ').trim();
+}
 function openerKey(body){
   var lines = String(body || '').split('\n').filter(function(x){ return x.trim(); });
   if (!lines.length) return '';
@@ -1525,7 +1561,7 @@ function composePrompt(kind, contact, evidence, context, forced, priorTouch){
   if (context) lines.push('\nCONTEXT FROM THE PRACTICE (use only if consistent with the evidence): ' + context);
   if (kind === 'followup' && priorTouch){
     lines.push('\nTHIS IS TOUCH 2, the follow-up. The first note said:\nSubject: ' + priorTouch.subject + '\n' + priorTouch.body);
-    lines.push('Apply the follow-up standard: 90 to 100 words. Advance the SAME conversation by sharpening the first note\'s tension into a more precise split or distinction; never introduce an unrelated topic. Do not reuse the first note\'s opening construction, do not open with any form of Since I wrote, and do not use the fixed 30-minute close: end with a short, lower-friction ask that fits this person, or let a strong personalised question be the close on its own. At most one plain clause may reference the first note. Subject must be exactly "Re: ' + priorTouch.subject + '".');
+    lines.push('Apply the follow-up standard: 90 to 100 words. Advance the SAME conversation by sharpening the first note\'s tension into a more precise split or distinction; never introduce an unrelated topic. Do not reuse the first note\'s opening construction and do not open with any form of Since I wrote. The close follows the touch 2 close register: one or two short, complete conditional sentences offering a brief conversation in the coming weeks, no duration, no fixed 30-minute sentence, written fresh in wording no other follow-up in this campaign has used. Where a strong personalised question closes the note, let it be the close, with at most one soft offer after it. At most one plain clause may reference the first note. Subject must be exactly "Re: ' + priorTouch.subject + '".');
   }
   if (kind === 'finalinsight' && priorTouch){
     lines.push('\nTHIS IS TOUCH 3, the final note of the sequence (channel: ' + priorTouch.channel + '). Change mode: 60 to 90 words of concrete usefulness, one small example of what we could establish for them, a specific output we could put in their hands, or one final low-pressure question. Never a third market observation, and never the fixed 30-minute close: end so the reader can answer with yes, no or not me in one line. It reads as a natural last word, never a chase, and is the last communication. Earlier subject: ' + priorTouch.subject + '. If this touch is an email, subject is "Re: ' + priorTouch.subject + '"; if an InMail, use a fresh three to seven word subject.');
@@ -1553,6 +1589,11 @@ function generateDraft(kind, contact, evidence, context, forced, priorTouch, sou
       var openers = campaignOpeners();
       var ok = openerKey(draft.email);
       if (ok && openers[ok]) violations.push('Email: opens the same way as the earlier draft for ' + openers[ok] + '. Every draft in a campaign needs its own opening.');
+      if (kind !== 'first'){
+        var closes = campaignCloses();
+        var ck = closeKey(draft.email);
+        if (ck && closes[ck]) violations.push('Email: closes with the same wording as the earlier follow-up for ' + closes[ck] + '. Every follow-up needs its own close.');
+      }
       var chain = Promise.resolve(draft);
       if (violations.length){
         chain = runRepair(draft, violations).then(function(fixed){
