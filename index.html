@@ -362,9 +362,9 @@ var CLOSE_SENTENCE = 'If this is useful to discuss near-term, we\'d welcome a 30
 
 var BANNED_WORDS = ['unlock','navigate','transform','leverage','future proof','at the intersection of','in today\'s rapidly evolving landscape','game changer','delve','robust','holistic','strategic imperative','exciting','thrilled'];
 
-var BANNED_LINES = ['not a sales call','worth comparing notes','I am confident it would be worth the time','you will already know','as you are aware','it is important to','leaders must','the winners will be','your hardest problem is','the real issue is'];
+var BANNED_LINES = ['not a sales call','I am confident it would be worth the time','you will already know','as you are aware','it is important to','leaders must','the winners will be','your hardest problem is','the real issue is'];
 
-var BANNED_STOCK = ['rarely sits in published data','published data','before capital is committed','positions harden','reference positions','durable advantage','the window is','being set now','is being shaped early','forming views on who should own'];
+var BANNED_STOCK = ['rarely sits in published data','published data','before capital is committed','positions harden','reference positions','durable advantage','the window is','being set now','is being shaped early','forming views on who should own','we keep hearing','we have been hearing','we\'ve been hearing','something we keep hearing','one thing we keep hearing','since i wrote','since my last note'];
 
 var BANNED_FOLLOWUP = ['just following up','circling back','bumping this','gentle reminder','checking in','wanted to make sure you saw'];
 
@@ -376,12 +376,15 @@ var WRITER_METHOD = [
 'THE STANCE. You are a senior sector advisor who knows this world personally and is typing the note yourself, one senior person to another. You use verified intelligence and never exceed it.',
 '',
 'HOW TO COMPOSE (an order of thought, not a template):',
-'- Before writing a word, decide the one thing this email brings that the person does not already have: a question we keep hearing from named kinds of actors in their world, a divergence between what different actors tell us, or evidence we could gather first hand that is not public. If there is genuinely nothing, decline to write.',
-'- Write as one senior person typing a short note to another: plain words, varied sentence lengths, thoughts in whatever order the substance suggests. There is no fixed scaffold. No two drafts may share an opening or a shape.',
+'- Before writing a word, decide the one thing this email brings that the person does not already have: a sharp question the evidence supports, a divergence the evidence shows between kinds of actors in their world, or evidence we could gather first hand that is not public. If there is genuinely nothing, decline to write.',
+'- The field-claim rule, absolute: language that claims FutureBridge has heard, seen or been told something (we hear, we are seeing, our conversations show, and every variant) may be used only when the evidence file contains that finding marked verified or reported. Otherwise the same idea must be framed honestly as an open question, a hypothesis we would test, or a cited public signal. A hypothesis dressed as proprietary evidence is the one failure a technically sharp recipient will catch with a single reply.',
+'- Where the evidence file holds a verified person-specific public signal (a talk they gave, something they published, a stated priority), one plain clause may use it as the reason for writing to this person in particular. One clause at most, never flattery, never a recitation of their achievements.',
+'- Write as one senior person typing a short note to another: plain words, varied sentence lengths, thoughts in whatever order the substance suggests. There is no fixed scaffold. No two drafts in a campaign may share an opening construction or the same skeleton; if every note runs observation, then split, then offer, then meeting, the set reads as generated even when each message alone reads well. Vary the order of thought itself.',
 '- Never inform the person about their own market, company or stakes. They know all of it better than we do. Shared context earns one clause at most, as a hinge. Everything else speaks from our vantage: what we hear in conversations, what we could find out for them, what surprised us.',
 '- Mention what FutureBridge does once, in fresh plain words each time, as a natural continuation of the thought, never as a tagline or capitalised programme. Different words every draft.',
 '- Bullets only when two genuinely sharp, specific questions exist, each under eighteen words. The default is no bullets.',
-'- The close, a hard rule, always this exact sentence: ' + CLOSE_SENTENCE,
+'- The close for a FIRST touch, a hard rule, always this exact sentence: ' + CLOSE_SENTENCE,
+'- Later touches never reuse that sentence. Touch 2 lowers the friction: a short, light ask that fits the person, for example: Worth comparing notes for 15 minutes? or: Is this something you are actively working through at the company? Where the draft already ends on a strong personalised question, that question IS the close and nothing is added after it. Touch 3 ends with an easy question the reader can answer with yes, no or not me.',
 '- The sign-off, a hard rule: the configured sign-off then the sender name on its own line. Nothing else: no titles, no email address, no phone, no links, no firm line. The sender is Sarah; never Dr Sarah.',
 '',
 'HUMANITY GUARDRAILS (the difference between written and generated):',
@@ -397,13 +400,13 @@ var WRITER_METHOD = [
 '- Use only claims marked verified or reported. Never invent field findings, named conversations or statistics. Our vantage may be offered as what we would ask or could establish, never as facts not gathered.',
 '',
 'SHAPE, VOICE AND CHANNELS:',
-'- Email: 90 to 130 words. Paragraphs of one or two sentences with a blank line between every paragraph. Greeting: Hi first name. British spelling. Straight apostrophes, plain full stops, no em or en dashes, hyphens only in real compounds.',
+'- Email: 90 to 130 words. Paragraphs of one or two sentences with a blank line between every paragraph. Greeting: Hi first name. British spelling. Straight apostrophes, plain full stops, no em or en dashes, hyphens only in real compounds. Numbers are written in digits, never words: 3 plants, 15 minutes, 12 weeks, the % symbol rather than the word percent. This applies even at the start of a sentence.',
 '- Banned words: ' + BANNED_WORDS.join('; ') + '.',
 '- Banned lines: ' + BANNED_LINES.join('; ') + '.',
 '- Subject: written last, three to seven plain words naming the question, not the company. Nothing that reads like a headline.',
 '- InMail: 60 to 90 words, no bullets, even more like a quick personal note, same humanity rules, then the same hard close sentence, no sign-off block.',
 '',
-'FOLLOW-UP STANDARD: 90 to 100 words, two or three short paragraphs. It must add something, never repeat or summarise. It opens with one fresh, specific insight, development or sharper question from the evidence that advances the first note. At most one plain clause may reference the earlier note (for example: I wrote last week about X). Banned: ' + BANNED_FOLLOWUP.join('; ') + ', and any apology for writing again. Subject: Re: followed by the first subject, unchanged. Same close, same sign-off, same guardrails.',
+'FOLLOW-UP STANDARD. Touch 2: 90 to 100 words, two or three short paragraphs. It must advance the SAME conversation, never open a new one: it takes the tension of the first note and sharpens it into a more precise split or distinction (who moves first, what actually decides the pace, where the divide runs). A follow-up on an unrelated topic reads as a second campaign inserted into the thread and is a failure. At most one plain clause may reference the earlier note (for example: I wrote last week about X), and never the words Since I wrote. Banned: ' + BANNED_FOLLOWUP.join('; ') + ', and any apology for writing again. Subject: Re: followed by the first subject, unchanged. Touch 3 changes mode entirely: 60 to 90 words of concrete usefulness, a small example of what we could establish, a specific output we could put in their hands, or one final low-pressure question, never a third market observation. Same sign-off, same guardrails; the close follows the tiered rule above.',
 '',
 'TWO APPROVED EXAMPLES, REGISTER ONLY. They show the register, the length and the confidence; they do not supply language. Reusing their sentences, constructions or connective phrases is a violation, and copying any five-word run other than the fixed close is caught mechanically. The close and sign-off rules above override the examples where they differ. Note: the example bodies contain phrases that now appear on the banned stock list; that is deliberate. The examples are historical approvals kept for register; the bans force every generated draft to find its own words.',
 '',
@@ -607,7 +610,7 @@ ACCOUNT_ECOLAB.profiles = [
   pressures: 'Converting owners to rental against habit and financing beliefs; competing rental and pay-per-wash offers from Diversey / Solenis and Winterhalter; defending value while the 2026 energy surcharge passes through; making country-level economics work where profitability outside the US is structurally thinner.',
   subject: 'Rental conversion evidence in Spain and Italy',
   email: 'Hi [First name],\n\nMost commentary on machine rental in hospitality treats the decision as a price comparison. What nobody outside can see is why an owner who accepts the arithmetic still keeps the machine they bought.\n\nThat is something we could establish first hand: structured interviews with restaurant operators across Spain and Italy, testing where the objection to renting is financial, where it is habit, and where it will not move at all.\n\nFutureBridge does this kind of primary customer evidence work for industrial businesses deciding where to press and where to step back.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
-  inmail: 'Hi [First name],\n\nWe are often asked why restaurant owners who accept the case for renting still keep the machines they bought. Only operator interviews answer that, and Spain and Italy are where we would run them: which objections move with evidence, which need a different offer, and which are fixed. FutureBridge gathers that kind of first-hand customer evidence.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
+  inmail: 'Hi [First name],\n\nThe question worth putting to restaurant owners is why those who accept the case for renting still keep the machines they bought. Only operator interviews answer that, and Spain and Italy are where we would run them: which objections move with evidence, which need a different offer, and which are fixed. FutureBridge gathers that kind of first-hand customer evidence.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
 },
 {
   id: 'rp2', wedge: 2,
@@ -615,8 +618,8 @@ ACCOUNT_ECOLAB.profiles = [
   owns: 'Post-close activation of the combined semiconductor ultra-pure water, power-water, direct liquid cooling, fluids, digital and service platform; the November 2026 integrated launch; progress against the public $4bn 2030 ambition at 25% operating-income margins.',
   pressures: 'Choosing which customer applications and archetypes get proof investment first; building references in a buying system Ecolab has not historically owned; delivering margin discipline on a $4.75bn acquisition funded with $5.0bn of new notes; a visible launch date in November.',
   subject: 'Qualification evidence for liquid cooling',
-  email: 'Hi [First name],\n\nOne question we keep hearing around AI data centre buildouts is what evidence a hyperscaler or colocation operator will accept before trusting a new liquid cooling supplier in live racks.\n\nThe answers vary more than the market admits, and the people who actually set the bar sit in facility engineering and procurement rather than in anyone\'s marketing material.\n\nWe could put the question to them directly: structured interviews across operator types and applications, read against where you are weighing early proof investment. FutureBridge builds this kind of bottom-up customer picture for industrial businesses entering a new buying system.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
-  inmail: 'Hi [First name],\n\nWhat counts as proof for liquid cooling in live AI racks depends heavily on which facility engineer you ask, and that spread is what makes early reference choices difficult. We could interview the people doing the qualifying, by operator type and application, and show where proof effort earns the most. It is the kind of evidence that tends to move internal debates quickly.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
+  email: 'Hi [First name],\n\nAn open question in AI data centre buildouts is what evidence a hyperscaler or colocation operator will accept before trusting a new liquid cooling supplier in live racks.\n\nThere is unlikely to be one answer, and the people who actually set the bar sit in facility engineering and procurement rather than in anyone\'s marketing material.\n\nWe could put the question to them directly: structured interviews across operator types and applications, read against where you are weighing early proof investment. FutureBridge builds this kind of bottom-up customer picture for industrial businesses entering a new buying system.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
+  inmail: 'Hi [First name],\n\nHow proof for liquid cooling in live AI racks gets judged is still unsettled, and that spread between facility engineers is what makes early reference choices difficult. We could interview the people doing the qualifying, by operator type and application, and show where proof effort earns the most. It is the kind of evidence that tends to move internal debates quickly.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
 },
 {
   id: 'rp3', wedge: 3,
@@ -1392,7 +1395,7 @@ function runResearch(contact){
 function runAudit(evidence, draft){
   var sys = [
     'Adopt the persona of a managing director in the chemicals, materials and natural resources practice of a leading strategy consultancy, reviewing an analyst before anything reaches a client: objective, evidence-first, unsentimental. You may spot-check the title, employer and region with web search.',
-    'Run six checks: 1 identity; 2 title and remit (unresolved ambiguity fails); 3 region and scope (a substituted region is an automatic fail); 4 signal quality; 5 draft matches evidence and reads human (fail template structure, slogans, copied phrasing, antithesis patterns, and any line that recounts the person\'s own market to them); 6 confidence to send.',
+    'Run six checks: 1 identity; 2 title and remit (unresolved ambiguity fails); 3 region and scope (a substituted region is an automatic fail); 4 signal quality; 5 draft matches evidence and reads human (fail template structure, slogans, copied phrasing, antithesis patterns, any line that recounts the person\'s own market to them, any field claim such as we hear or we are seeing that the evidence file does not support as verified or reported, and any follow-up that changes subject instead of advancing the first note); 6 confidence to send.',
     'Score 0 to 100. 85 and above only when you would sign it without edits (band: Bank on it). 60 to 84 usable after named checks (band: Use with checks). Below 60 must not be sent (band: Do not send yet). Unresolved title ambiguity, an unverified region, or a draft-evidence mismatch caps the score below 60.',
     'Return strict JSON only: { "score": 0-100, "band": "Bank on it" | "Use with checks" | "Do not send yet", "checks": [ {"name","result":"pass"|"fail"|"na","note"} x6 ], "issues": [], "fixes": [] }.'
   ].join('\n');
@@ -1458,8 +1461,11 @@ function scanText(label, text, opts){
   }
   if (/is not (the |a |an )?[^.]{0,45}\.\s*It is/i.test(raw)) v.push(label + ': antithesis pattern (is not X. It is Y). Rewrite as something a person would say.');
   if (/\b(NA|LI)\b/.test(raw) || /\b(Sr|Mgr|Assoc)\.?\b/.test(raw)) v.push(label + ': crude abbreviation reaching prose (NA, Sr, Mgr, Assoc or LI).');
+  var numWords = /\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|percent)\b/i.exec(raw);
+  if (numWords) v.push(label + ': the number "' + numWords[1] + '" is spelled out; numbers are written in digits (and % rather than percent).');
   if (opts && opts.titleExact && opts.titleExact.length > 4 && raw.indexOf(opts.titleExact) >= 0) v.push(label + ': the verbatim profile title is pasted into the prose.');
   if (opts && opts.needsClose && raw.indexOf(CLOSE_SENTENCE) < 0) v.push(label + ': the fixed close sentence is missing.');
+  if (opts && opts.followup && raw.indexOf(CLOSE_SENTENCE) >= 0) v.push(label + ': the fixed 30-minute close may only be used in touch 1; later touches use a lower-friction ask.');
   var sh = sentenceShingles(raw);
   var closeSh = sentenceShingles(CLOSE_SENTENCE);
   for (var i = 0; i < sh.length; i++){
@@ -1474,15 +1480,35 @@ function scanText(label, text, opts){
 function scanDraft(draft, opts){
   opts = opts || {};
   var v = [];
+  var needsClose = !opts.followup;
   v = v.concat(scanText('Subject', draft.subject, {}));
-  v = v.concat(scanText('Email', draft.email, { titleExact: opts.titleExact, needsClose: true, followup: opts.followup }));
-  if (draft.inmail) v = v.concat(scanText('InMail', draft.inmail, { titleExact: opts.titleExact, needsClose: true, followup: opts.followup }));
+  v = v.concat(scanText('Email', draft.email, { titleExact: opts.titleExact, needsClose: needsClose, followup: opts.followup }));
+  if (draft.inmail) v = v.concat(scanText('InMail', draft.inmail, { titleExact: opts.titleExact, needsClose: needsClose, followup: opts.followup }));
   return v;
+}
+/* Campaign-level fingerprint: no draft may open the way an earlier draft
+   in this account opened. Compared on the first five words after the
+   greeting, normalised. */
+function campaignOpeners(excludeId){
+  var out = {};
+  Central.all().forEach(function(r){
+    if (r.deleted || r.account !== App.account || r.id === excludeId) return;
+    var key = openerKey(r.body);
+    if (key) out[key] = r.contact;
+  });
+  return out;
+}
+function openerKey(body){
+  var lines = String(body || '').split('\n').filter(function(x){ return x.trim(); });
+  if (!lines.length) return '';
+  var start = /^hi /i.test(lines[0]) ? 1 : 0;
+  var words = normText(lines.slice(start).join(' ')).replace(/[^a-z0-9\s'-]/g, ' ').split(/\s+/).filter(Boolean);
+  return words.slice(0, 5).join(' ');
 }
 
 /* ---------- The repair pass ---------- */
 function runRepair(draft, violations){
-  var sys = 'You repair outreach drafts. Change only what the listed violations require: replace stock phrases, copied language and antithesis constructions with fresh plain words a person would say. Alter nothing else. Keep the exact close sentence and sign-off untouched. Return strict JSON only: {"subject","email","inmail"}.';
+  var sys = 'You repair outreach drafts. Change only what the listed violations require: replace stock phrases, copied language, repeated openings and antithesis constructions with fresh plain words a person would say. Alter nothing else. Leave the closing ask untouched unless a violation names it; where a violation says the fixed 30-minute close may not be used, replace it with a short, lower-friction ask that fits the note. Return strict JSON only: {"subject","email","inmail"}.';
   var user = 'DRAFT:\n' + JSON.stringify(draft) + '\n\nVIOLATIONS:\n- ' + violations.join('\n- ') + '\n\nHouse rules for reference:\n' + WRITER_METHOD.slice(0, 2600) + '\n\nReturn the corrected strict JSON only.';
   return callForJSON({ system: sys, messages: [{ role: 'user', content: user }], maxTokens: BUDGET.repair }, 'repair');
 }
@@ -1498,15 +1524,16 @@ function composePrompt(kind, contact, evidence, context, forced, priorTouch){
   else lines.push('\nNo research evidence file exists for this person. Write only from the account context and the role, and stay strictly generic about the person: no invented personal signals.');
   if (context) lines.push('\nCONTEXT FROM THE PRACTICE (use only if consistent with the evidence): ' + context);
   if (kind === 'followup' && priorTouch){
-    lines.push('\nTHIS IS A FOLLOW-UP, touch ' + priorTouch.touchNumber + '. The first note said:\nSubject: ' + priorTouch.subject + '\n' + priorTouch.body);
-    lines.push('Apply the follow-up standard: 90 to 100 words, open with one fresh specific insight or sharper question that advances the first note, at most one plain clause referencing it. Subject must be exactly "Re: ' + priorTouch.subject + '".');
+    lines.push('\nTHIS IS TOUCH 2, the follow-up. The first note said:\nSubject: ' + priorTouch.subject + '\n' + priorTouch.body);
+    lines.push('Apply the follow-up standard: 90 to 100 words. Advance the SAME conversation by sharpening the first note\'s tension into a more precise split or distinction; never introduce an unrelated topic. Do not reuse the first note\'s opening construction, do not open with any form of Since I wrote, and do not use the fixed 30-minute close: end with a short, lower-friction ask that fits this person, or let a strong personalised question be the close on its own. At most one plain clause may reference the first note. Subject must be exactly "Re: ' + priorTouch.subject + '".');
   }
   if (kind === 'finalinsight' && priorTouch){
-    lines.push('\nTHIS IS THE FINAL TOUCH of a three-touch sequence (channel: ' + priorTouch.channel + '). It adds one genuinely relevant new insight, reads as a natural last word, never a chase, and is the last communication. Earlier subject: ' + priorTouch.subject + '. If this touch is an email, subject is "Re: ' + priorTouch.subject + '"; if an InMail, use a fresh three to seven word subject.');
+    lines.push('\nTHIS IS TOUCH 3, the final note of the sequence (channel: ' + priorTouch.channel + '). Change mode: 60 to 90 words of concrete usefulness, one small example of what we could establish for them, a specific output we could put in their hands, or one final low-pressure question. Never a third market observation, and never the fixed 30-minute close: end so the reader can answer with yes, no or not me in one line. It reads as a natural last word, never a chase, and is the last communication. Earlier subject: ' + priorTouch.subject + '. If this touch is an email, subject is "Re: ' + priorTouch.subject + '"; if an InMail, use a fresh three to seven word subject.');
   }
   if (forced) lines.push('\nYou must write the email. A leave verdict is forbidden on this run.');
   lines.push('\nFirst decide: is there one thing this email brings that the person does not already have? If not' + (forced ? ' (not permitted on this run)' : '') + ', return {"decision":"leave","reason":"..."}.');
-  lines.push('Otherwise return strict JSON only: {"decision":"write","subject":"...","email":"email text with greeting, blank lines between paragraphs, ending with the exact close sentence. Do not include a sign-off block; the studio appends the configured sign-off and sender name automatically.","inmail":"InMail text with greeting and the exact close sentence, no sign-off block"}');
+  var closeNote = (kind === 'first') ? 'ending with the exact close sentence' : 'ending with the lower-friction ask the follow-up standard requires, never the fixed 30-minute sentence';
+  lines.push('Otherwise return strict JSON only: {"decision":"write","subject":"...","email":"email text with greeting, blank lines between paragraphs, ' + closeNote + '. Do not include a sign-off block; the studio appends the configured sign-off and sender name automatically.","inmail":"InMail text with greeting, ' + closeNote + ', no sign-off block"}');
   return lines.join('\n');
 }
 
@@ -1523,6 +1550,9 @@ function generateDraft(kind, contact, evidence, context, forced, priorTouch, sou
       var draft = { subject: out.subject || '', email: out.email || '', inmail: out.inmail || '' };
       var opts = { titleExact: evidence && evidence.title_exact ? evidence.title_exact : '', followup: kind !== 'first' };
       var violations = scanDraft(draft, opts);
+      var openers = campaignOpeners();
+      var ok = openerKey(draft.email);
+      if (ok && openers[ok]) violations.push('Email: opens the same way as the earlier draft for ' + openers[ok] + '. Every draft in a campaign needs its own opening.');
       var chain = Promise.resolve(draft);
       if (violations.length){
         chain = runRepair(draft, violations).then(function(fixed){
@@ -2386,12 +2416,14 @@ PAGES.method = function(){
 '<div class="card"><h2>What a draft may bring</h2><p>One of three things: a question we keep hearing from named kinds of actors in the reader\'s world, a divergence between what different actors tell us, or evidence we could gather first hand that is not public. Never a summary of the reader\'s own market; they know it better than we do, and being told is what makes an email preachy.</p></div>',
 '<div class="card"><h2>Hard rules that never move</h2><ul>' +
 '<li>Email 90 to 130 words; InMail 60 to 90; follow-up 90 to 100. Short paragraphs with a blank line between each.</li>' +
-'<li>The close is always this exact sentence: ' + esc(CLOSE_SENTENCE) + '</li>' +
+'<li>The close for a first touch is always this exact sentence: ' + esc(CLOSE_SENTENCE) + ' Later touches never reuse it: touch 2 drops to a short, lighter ask, and touch 3 ends with a question the reader can answer with yes, no or not me.</li>' +
+'<li>The field-claim rule: we hear, we are seeing and every variant may only be written when the evidence file holds that finding as verified or reported. Otherwise the idea is framed as an open question, a hypothesis to test, or a cited public signal.</li>' +
+'<li>No campaign fingerprints: no two drafts in a campaign may share an opening or the same skeleton, and the scanner checks new openings against every earlier draft in the account.</li>' +
 '<li>The sign-off is the configured sign-off, then the sender name on its own line. Nothing else. The sender is Sarah; never Dr Sarah.</li>' +
-'<li>British spelling, straight apostrophes, no em or en dashes, no bullets unless two genuinely sharp questions exist.</li>' +
+'<li>British spelling, straight apostrophes, no em or en dashes, and numbers always in digits (15 minutes, 3 plants, % rather than percent).</li>' +
 '<li>Subject: written last, three to seven plain words naming the question, not the company.</li>' +
 '<li>No banned words or stock phrases, no antithesis constructions, no sentences that build to a punchline, no flattery, no reciting the reader\'s own market back to them.</li>' +
-'<li>Follow-ups add something new; they never chase. Three touches is the ceiling, then we stop.</li>' +
+'<li>Touch 2 sharpens the same conversation into a more precise distinction; it never opens a new topic. Touch 3 is 60 to 90 words of concrete usefulness, never a third observation. Three touches is the ceiling, then we stop.</li>' +
 '</ul></div>',
 '<div class="card"><h2>The enforcement machinery</h2><p>Rules drift; machinery holds. Every draft is scanned mechanically for dashes, curly quotes, banned language, antithesis patterns, crude abbreviations, a pasted profile title, a missing close and any five-word run copied from the approved examples. Violations trigger one automatic repair pass that changes only what the violations require. The repaired draft is then audited in the persona of a practice managing director and scored 0 to 100: 85 and above means it could be signed without edits; below 60 must not be sent.</p></div>',
 '<div class="card"><h2>The two approved examples, register only</h2><p class="muted small">They show register, length and confidence. They do not supply language: reusing their sentences or connective phrases is a violation the scanner catches mechanically. Some of their phrases now sit on the banned list; that is deliberate, so every new draft finds its own words.</p>' +
