@@ -364,7 +364,7 @@ var BANNED_WORDS = ['unlock','navigate','transform','leverage','future proof','a
 
 var BANNED_LINES = ['not a sales call','I am confident it would be worth the time','you will already know','as you are aware','it is important to','leaders must','the winners will be','your hardest problem is','the real issue is'];
 
-var BANNED_STOCK = ['rarely sits in published data','published data','before capital is committed','positions harden','reference positions','durable advantage','the window is','being set now','is being shaped early','forming views on who should own','we keep hearing','we have been hearing','we\'ve been hearing','something we keep hearing','one thing we keep hearing','since i wrote','since my last note'];
+var BANNED_STOCK = ['rarely sits in published data','published data','before capital is committed','positions harden','reference positions','durable advantage','the window is','being set now','is being shaped early','forming views on who should own','we keep hearing','we have been hearing','we\'ve been hearing','something we keep hearing','one thing we keep hearing','we are seeing','we\'re seeing','since i wrote','since my last note','since we last spoke'];
 
 
 var TOUCH2_CLOSE_EXAMPLES = [
@@ -373,7 +373,13 @@ var TOUCH2_CLOSE_EXAMPLES = [
 'If this is a live question for you at the moment, a brief conversation in the next week or two might be worthwhile; there is no urgency from our side.',
 'If any of this lands close to what you are working on, I would welcome a short conversation whenever convenient in the coming weeks.'
 ];
-var BANNED_FOLLOWUP = ['just following up','circling back','bumping this','gentle reminder','checking in','wanted to make sure you saw','compare notes','worth comparing notes'];
+var BANNED_FOLLOWUP = ['just following up','circling back','bumping this','gentle reminder','checking in','wanted to make sure you saw','compare notes','worth comparing notes','trade notes','trade a few notes','trade a few thoughts','swap notes','swap a few notes','swap thoughts','swap a few thoughts'];
+
+/* Offers of analysis we have not done. These phrasings imply FutureBridge
+   already holds data, analysis or a developed answer. Unless the evidence
+   file genuinely contains that completed work, the same idea must be put
+   as an informed hypothesis or an open question. */
+var OVERPROMISE_PHRASES = ['we can map','we could map','we can establish','what we could establish','we could establish','we can build','what we could build for you','what we could put together','we could put together','pull a short view together','pull a view together','i can walk you through','walk you through it','i\'ll sketch out','i will sketch out','i could sketch out','we could find which','we could determine'];
 
 var EXAMPLE_ONE = 'Hi Mike,\n\nOne thing we are seeing in direct-to-chip cooling is that the service model is being shaped early, before the market has settled.\n\nHyperscale operators, colocation providers, OEMs, integrators and specialist service partners are each forming different views on who should own fluid monitoring, lifecycle assurance, replacement cycles and long-term performance risk. Those relationships are being established now, while the market is still deciding which models will become repeatable.\n\nThe Dow Coolant Care Network positions Chem-Aqua well in that conversation. The strategic question is where to focus first: which customer groups, channel relationships and service positions are most likely to create durable advantage rather than one-off technical support.\n\nThis is the type of market-structure and customer-prioritisation question FutureBridge helps industrial businesses work through.';
 
@@ -385,13 +391,14 @@ var WRITER_METHOD = [
 'HOW TO COMPOSE (an order of thought, not a template):',
 '- Before writing a word, decide the one thing this email brings that the person does not already have: a sharp question the evidence supports, a divergence the evidence shows between kinds of actors in their world, or evidence we could gather first hand that is not public. If there is genuinely nothing, decline to write.',
 '- The field-claim rule, absolute: language that claims FutureBridge has heard, seen or been told something (we hear, we are seeing, our conversations show, and every variant) may be used only when the evidence file contains that finding marked verified or reported. Otherwise the same idea must be framed honestly as an open question, a hypothesis we would test, or a cited public signal. A hypothesis dressed as proprietary evidence is the one failure a technically sharp recipient will catch with a single reply.',
-'- Where the evidence file holds a verified person-specific public signal (a talk they gave, something they published, a stated priority), one plain clause may use it as the reason for writing to this person in particular. One clause at most, never flattery, never a recitation of their achievements.',
+'- The promise rule, absolute: a cold note may promise a thoughtful, relevant conversation and nothing more. Never imply that FutureBridge already holds analysis, data or a developed answer it does not hold. Offers such as we can map, we could establish, what we could put together for you, happy to pull a short view together, I can walk you through it, commit us to work that does not yet exist and read as a free mini-project. Where the evidence file does not contain that completed work, put the same idea as an informed hypothesis or an open question. Not: We can map where that gap is widest by country. Instead: The question for us is whether that gap varies materially by country; I would be interested in what you are seeing. Describing in general terms the kind of work FutureBridge does remains fine; committing to a specific piece of analysis does not. The test before sending: if the reply is yes, let us meet next week, the email must have promised only a good conversation, never a ready answer.',
+'- Where the evidence file holds a verified person-specific public signal (a talk they gave, something they published, a stated priority), one plain clause may use it as the reason for writing to this person in particular. One clause at most, never flattery, never a recitation of their achievements. This is for the highest-value targets where the signal is genuinely strong; never force one into an email that reads complete without it.',
 '- Write as one senior person typing a short note to another: plain words, varied sentence lengths, thoughts in whatever order the substance suggests. There is no fixed scaffold. No two drafts in a campaign may share an opening construction or the same skeleton; if every note runs observation, then split, then offer, then meeting, the set reads as generated even when each message alone reads well. Vary the order of thought itself.',
 '- Never inform the person about their own market, company or stakes. They know all of it better than we do. Shared context earns one clause at most, as a hinge. Everything else speaks from our vantage: what we hear in conversations, what we could find out for them, what surprised us.',
 '- Mention what FutureBridge does once, in fresh plain words each time, as a natural continuation of the thought, never as a tagline or capitalised programme. Different words every draft.',
 '- Bullets only when two genuinely sharp, specific questions exist, each under eighteen words. The default is no bullets.',
 '- The close for a FIRST touch, a hard rule, always this exact sentence: ' + CLOSE_SENTENCE,
-'- Later touches never reuse that sentence. The touch 2 close is one or two short, complete sentences in conditional form (if, should, would, could, might): the writer offers a brief conversation in the coming weeks, from a position of equal standing, never asking for a slot like a supplicant and never naming a duration. These four approved closes show the register; they are register only, and copying any five-word run from them is caught mechanically, so every follow-up finds its own wording: ' + TOUCH2_CLOSE_EXAMPLES.join(' | ') + ' No two follow-ups in a campaign may share the same closing wording. Where the draft already ends on a strong personalised question, that question IS the close, followed at most by one soft offer such as: If it is, I would be glad to share what we could test. Touch 3 ends with an easy question the reader can answer with yes, no or not me.',
+'- Later touches never reuse that sentence. The touch 2 close is one or two short, complete sentences in conditional form (if, should, would, could, might): the writer offers a brief conversation in the coming weeks, from a position of equal standing, never asking for a slot like a supplicant and never naming a duration. These four approved closes show the register; they are register only, and copying any five-word run from them is caught mechanically, so every follow-up finds its own wording: ' + TOUCH2_CLOSE_EXAMPLES.join(' | ') + ' No two follow-ups in a campaign may share the same closing wording. The strongest close of all is none: where the draft ends on the most relevant decision question for this person, that question IS the close and no meeting request follows it; a reader who wants the conversation will ask for it. Touch 3 ends with an easy question the reader can answer with yes, no or not me.',
 '- The sign-off, a hard rule: the configured sign-off then the sender name on its own line. Nothing else: no titles, no email address, no phone, no links, no firm line. The sender is Sarah; never Dr Sarah.',
 '',
 'HUMANITY GUARDRAILS (the difference between written and generated):',
@@ -405,7 +412,8 @@ var WRITER_METHOD = [
 '- Every sentence must connect to the evidenced remit and the decision in front of the person. Write for the remit as evidenced, not the obvious reading of the title.',
 '- Use regions exactly as evidenced. Never reproduce the LinkedIn title. Never let abbreviations reach the prose: expand them or leave them out.',
 '- Never mention an acquisition or corporate event unless it directly changes the specific decision discussed, and never as the hook.',
-'- Use only claims marked verified or reported. Never invent field findings, named conversations or statistics. Our vantage may be offered as what we would ask or could establish, never as facts not gathered.',
+'- Use only claims marked verified or reported. Never invent field findings, named conversations or statistics. Our vantage is offered as what we would ask or would want to test, framed with could, might or my sense is, never as facts not gathered and never as work already done.',
+'- Role relevance and contact-data confidence are separate judgements. However strong the email, it does not go while the person\'s remit is unverified; a good email to the wrong remit is still the wrong email. Hold it rather than send on hope.',
 '',
 'SHAPE, VOICE AND CHANNELS:',
 '- Email: 90 to 130 words. Paragraphs of one or two sentences with a blank line between every paragraph. Greeting: Hi first name. British spelling. Straight apostrophes, plain full stops, no em or en dashes, hyphens only in real compounds. Numbers are written in digits, never words: 3 plants, 15 minutes, 12 weeks, the % symbol rather than the word percent. This applies even at the start of a sentence.',
@@ -414,7 +422,7 @@ var WRITER_METHOD = [
 '- Subject: written last, three to seven plain words naming the question, not the company. Nothing that reads like a headline.',
 '- InMail: 60 to 90 words, no bullets, even more like a quick personal note, same humanity rules, then the same hard close sentence, no sign-off block.',
 '',
-'FOLLOW-UP STANDARD. Touch 2: 90 to 100 words, two or three short paragraphs. It must advance the SAME conversation, never open a new one: it takes the tension of the first note and sharpens it into a more precise split or distinction (who moves first, what actually decides the pace, where the divide runs). A follow-up on an unrelated topic reads as a second campaign inserted into the thread and is a failure. At most one plain clause may reference the earlier note (for example: I wrote last week about X), and never the words Since I wrote. Banned: ' + BANNED_FOLLOWUP.join('; ') + ', and any apology for writing again. Subject: Re: followed by the first subject, unchanged. Touch 3 changes mode entirely: 60 to 90 words of concrete usefulness, a small example of what we could establish, a specific output we could put in their hands, or one final low-pressure question, never a third market observation. Same sign-off, same guardrails; the close follows the tiered rule above.',
+'FOLLOW-UP STANDARD. Touch 2: 90 to 100 words, two or three short paragraphs; when in doubt cut a sentence, the insight survives the trim. It must advance the SAME conversation, never open a new one: it takes the tension of the first note and sharpens it into a more precise split or distinction (who moves first, what actually decides the pace, where the divide runs). A follow-up on an unrelated topic reads as a second campaign inserted into the thread and is a failure. At most one plain clause may reference the earlier note (for example: I wrote last week about X), never the words Since I wrote, and any description of what the earlier note said must be checkable against its actual text; a recipient who rereads the first email and finds the reference false loses trust in the sender. Banned: ' + BANNED_FOLLOWUP.join('; ') + ', and any apology for writing again. Subject: Re: followed by the first subject, unchanged. Touch 3 changes mode entirely: 60 to 90 words of concrete usefulness, naming the one question a first conversation would usefully settle or the one thing we would want to test together, or one final low-pressure question, never a third market observation and never an offer of analysis as if it already exists. Same sign-off, same guardrails; the close follows the tiered rule above.',
 '',
 'TWO APPROVED EXAMPLES, REGISTER ONLY. They show the register, the length and the confidence; they do not supply language. Reusing their sentences, constructions or connective phrases is a violation, and copying any five-word run other than the fixed close is caught mechanically. The close and sign-off rules above override the examples where they differ. Note: the example bodies contain phrases that now appear on the banned stock list; that is deliberate. The examples are historical approvals kept for register; the bans force every generated draft to find its own words.',
 '',
@@ -617,7 +625,7 @@ ACCOUNT_ECOLAB.profiles = [
   owns: 'Growth of the warewashing rental programme across European markets: installed base, country activation, value proposition and sales enablement for the equipment, service and chemistry bundle.',
   pressures: 'Converting owners to rental against habit and financing beliefs; competing rental and pay-per-wash offers from Diversey / Solenis and Winterhalter; defending value while the 2026 energy surcharge passes through; making country-level economics work where profitability outside the US is structurally thinner.',
   subject: 'Rental conversion evidence in Spain and Italy',
-  email: 'Hi [First name],\n\nMost commentary on machine rental in hospitality treats the decision as a price comparison. What nobody outside can see is why an owner who accepts the arithmetic still keeps the machine they bought.\n\nThat is something we could establish first hand: structured interviews with restaurant operators across Spain and Italy, testing where the objection to renting is financial, where it is habit, and where it will not move at all.\n\nFutureBridge does this kind of primary customer evidence work for industrial businesses deciding where to press and where to step back.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
+  email: 'Hi [First name],\n\nMost commentary on machine rental in hospitality treats the decision as a price comparison. What nobody outside can see is why an owner who accepts the arithmetic still keeps the machine they bought.\n\nThat is the kind of question we would want to test first hand with restaurant operators across Spain and Italy: whether the objection to renting is financial, whether it is habit, and where it will not move at all.\n\nFutureBridge does this kind of primary customer evidence work for industrial businesses deciding where to press and where to step back.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
   inmail: 'Hi [First name],\n\nThe question worth putting to restaurant owners is why those who accept the case for renting still keep the machines they bought. Only operator interviews answer that, and Spain and Italy are where we would run them: which objections move with evidence, which need a different offer, and which are fixed. FutureBridge gathers that kind of first-hand customer evidence.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
 },
 {
@@ -892,8 +900,9 @@ function isSuper(){
   return SUPER_ADMINS.indexOf(App.user) >= 0 && answeredMap()[App.user] === true;
 }
 
-/* The hub user list: email -> { salt, hash, levels: {accountId: 'full'}, admins: {accountId: true} }.
-   Overview is the default level for every listed user; Full is granted per account. */
+/* The hub user list: email -> { salt, hash, role: 'admin'|'read' }.
+   Read is the default. Legacy records may carry levels/admins maps from the
+   per-account era; userRole() maps any Full grant to Admin. */
 function hubUsers(){ return Store.getJSON('hub_users', {}); }
 function saveHubUsers(u){ Store.setJSON('hub_users', u); }
 function randSalt(){
@@ -931,21 +940,38 @@ function checkPassword(email, pw){
   if (!rec || !rec.hash) return false;
   return sha256(rec.salt + ':' + String(pw)) === rec.hash;
 }
+/* Three access levels, hub-wide. Super admin: the fixed email list plus the
+   security answer, complete access. Admin: every studio, can research,
+   generate, edit, review, approve and download the practice-review and
+   approved mails, but cannot add contacts, import CSVs or touch hub
+   settings. Read: account overviews plus contacts and their generated
+   profiles, nothing else. Legacy per-account Full grants map to Admin. */
+function userRole(){
+  if (isSuper()) return 'super';
+  var rec = hubUsers()[App.user];
+  if (!rec) return '';
+  if (rec.role === 'admin' || rec.role === 'read') return rec.role;
+  /* Legacy record without a role: any Full grant means Admin. */
+  var lv = rec.levels || {};
+  for (var k in lv) if (lv[k] === 'full') return 'admin';
+  return 'read';
+}
 function canFull(acctId){
-  /* Tested at render time. The account and the grant are always tested together. */
+  /* Tested at render time. The account and the role are always tested together. */
   var a = accountById(acctId);
   if (!a || a.type !== 'studio') return false;
-  if (isSuper()) return true;
-  var rec = hubUsers()[App.user];
-  return !!(rec && rec.levels && rec.levels[acctId] === 'full');
+  var r = userRole();
+  return r === 'super' || r === 'admin';
 }
-function isAcctAdmin(acctId){
-  if (isSuper()) return true;
-  if (!canFull(acctId)) return false;
-  var rec = hubUsers()[App.user];
-  return !!(rec && rec.admins && rec.admins[acctId]);
+function canRead(acctId){
+  var a = accountById(acctId);
+  if (!a) return false;
+  var r = userRole();
+  return r === 'super' || r === 'admin' || r === 'read';
 }
-function isAdmin(){ return App.account ? isAcctAdmin(App.account) : isSuper(); }
+function canUploadContacts(){ return isSuper(); }
+function isAcctAdmin(acctId){ return isSuper(); }
+function isAdmin(){ return isSuper(); }
 function senderName(){ return Store.get('sender_name') || 'Sarah'; }
 function signoff(){ return Store.get('signoff') || 'Best regards,'; }
 
@@ -1403,7 +1429,7 @@ function runResearch(contact){
 function runAudit(evidence, draft){
   var sys = [
     'Adopt the persona of a managing director in the chemicals, materials and natural resources practice of a leading strategy consultancy, reviewing an analyst before anything reaches a client: objective, evidence-first, unsentimental. You may spot-check the title, employer and region with web search.',
-    'Run six checks: 1 identity; 2 title and remit (unresolved ambiguity fails); 3 region and scope (a substituted region is an automatic fail); 4 signal quality; 5 draft matches evidence and reads human (fail template structure, slogans, copied phrasing, antithesis patterns, any line that recounts the person\'s own market to them, any field claim such as we hear or we are seeing that the evidence file does not support as verified or reported, and any follow-up that changes subject instead of advancing the first note); 6 confidence to send.',
+    'Run six checks: 1 identity; 2 title and remit (unresolved ambiguity fails); 3 region and scope (a substituted region is an automatic fail); 4 signal quality; 5 draft matches evidence and reads human (fail template structure, slogans, copied phrasing, antithesis patterns, any line that recounts the person\'s own market to them, any field claim such as we hear or we are seeing that the evidence file does not support as verified or reported, any offer to map, establish or walk the reader through analysis that does not exist as completed work, any follow-up that changes subject instead of advancing the first note, and any follow-up whose description of the first note is not supported by that note\'s actual text); 6 confidence to send.',
     'Score 0 to 100. 85 and above only when you would sign it without edits (band: Bank on it). 60 to 84 usable after named checks (band: Use with checks). Below 60 must not be sent (band: Do not send yet). Unresolved title ambiguity, an unverified region, or a draft-evidence mismatch caps the score below 60.',
     'Return strict JSON only: { "score": 0-100, "band": "Bank on it" | "Use with checks" | "Do not send yet", "checks": [ {"name","result":"pass"|"fail"|"na","note"} x6 ], "issues": [], "fixes": [] }.'
   ].join('\n');
@@ -1472,6 +1498,13 @@ function scanText(label, text, opts){
       if (low.indexOf(p) >= 0) v.push(label + ': banned follow-up phrase "' + p + '".');
     });
   }
+  OVERPROMISE_PHRASES.forEach(function(p){
+    if (low.indexOf(p.toLowerCase()) >= 0) v.push(label + ': offers analysis we have not done ("' + p + '"); reframe it as an informed hypothesis or an open question to the reader.');
+  });
+  if (opts && opts.followup && opts.isEmailBody){
+    var wc = raw.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length;
+    if (wc > 105) v.push(label + ': runs to ' + wc + ' words; the follow-up band is 90 to 100. Cut a sentence, the insight survives the trim.');
+  }
   if (/is not (the |a |an )?[^.]{0,45}\.\s*It is/i.test(raw)) v.push(label + ': antithesis pattern (is not X. It is Y). Rewrite as something a person would say.');
   if (/\b(NA|LI)\b/.test(raw) || /\b(Sr|Mgr|Assoc)\.?\b/.test(raw)) v.push(label + ': crude abbreviation reaching prose (NA, Sr, Mgr, Assoc or LI).');
   var numWords = /\b(two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|percent)\b/i.exec(raw);
@@ -1504,7 +1537,7 @@ function scanDraft(draft, opts){
   var v = [];
   var needsClose = !opts.followup;
   v = v.concat(scanText('Subject', draft.subject, {}));
-  v = v.concat(scanText('Email', draft.email, { titleExact: opts.titleExact, needsClose: needsClose, followup: opts.followup }));
+  v = v.concat(scanText('Email', draft.email, { titleExact: opts.titleExact, needsClose: needsClose, followup: opts.followup, isEmailBody: true }));
   if (draft.inmail) v = v.concat(scanText('InMail', draft.inmail, { titleExact: opts.titleExact, needsClose: needsClose, followup: opts.followup }));
   return v;
 }
@@ -1544,7 +1577,7 @@ function openerKey(body){
 
 /* ---------- The repair pass ---------- */
 function runRepair(draft, violations){
-  var sys = 'You repair outreach drafts. Change only what the listed violations require: replace stock phrases, copied language, repeated openings and antithesis constructions with fresh plain words a person would say. Alter nothing else. Leave the closing ask untouched unless a violation names it; where a violation says the fixed 30-minute close may not be used, replace it with a short, lower-friction ask that fits the note. Return strict JSON only: {"subject","email","inmail"}.';
+  var sys = 'You repair outreach drafts. Change only what the listed violations require: replace stock phrases, copied language, repeated openings and antithesis constructions with fresh plain words a person would say. Where a violation names an offer of analysis we have not done, reframe that sentence as an informed hypothesis or an open question addressed to the reader; where one names an over-long follow-up, cut the least essential sentence. Alter nothing else. Leave the closing ask untouched unless a violation names it; where a violation says the fixed 30-minute close may not be used, replace it with a short, lower-friction ask that fits the note. Return strict JSON only: {"subject","email","inmail"}.';
   var user = 'DRAFT:\n' + JSON.stringify(draft) + '\n\nVIOLATIONS:\n- ' + violations.join('\n- ') + '\n\nHouse rules for reference:\n' + WRITER_METHOD.slice(0, 2600) + '\n\nReturn the corrected strict JSON only.';
   return callForJSON({ system: sys, messages: [{ role: 'user', content: user }], maxTokens: BUDGET.repair }, 'repair');
 }
@@ -1561,10 +1594,10 @@ function composePrompt(kind, contact, evidence, context, forced, priorTouch){
   if (context) lines.push('\nCONTEXT FROM THE PRACTICE (use only if consistent with the evidence): ' + context);
   if (kind === 'followup' && priorTouch){
     lines.push('\nTHIS IS TOUCH 2, the follow-up. The first note said:\nSubject: ' + priorTouch.subject + '\n' + priorTouch.body);
-    lines.push('Apply the follow-up standard: 90 to 100 words. Advance the SAME conversation by sharpening the first note\'s tension into a more precise split or distinction; never introduce an unrelated topic. Do not reuse the first note\'s opening construction and do not open with any form of Since I wrote. The close follows the touch 2 close register: one or two short, complete conditional sentences offering a brief conversation in the coming weeks, no duration, no fixed 30-minute sentence, written fresh in wording no other follow-up in this campaign has used. Where a strong personalised question closes the note, let it be the close, with at most one soft offer after it. At most one plain clause may reference the first note. Subject must be exactly "Re: ' + priorTouch.subject + '".');
+    lines.push('Apply the follow-up standard: 90 to 100 words, and when a sentence can go, cut it. Advance the SAME conversation by sharpening the first note\'s tension into a more precise split or distinction; never introduce an unrelated topic. Any sentence that describes what the first note said must be checkable against its text above; never claim it raised a point it did not raise, and never stage a pivot the first note already made. Do not reuse the first note\'s opening construction and do not open with any form of Since I wrote. Apply the promise rule: no offers to map, establish, build or walk them through anything; put what we would want to know as a hypothesis or an open question. Prefer to end on the most relevant decision question for this person, with nothing after it. Only where the note does not end on a question, close with one short conditional sentence offering a brief conversation, no duration, no fixed 30-minute sentence, in wording no other follow-up in this campaign has used. At most one plain clause may reference the first note. Subject must be exactly "Re: ' + priorTouch.subject + '".');
   }
   if (kind === 'finalinsight' && priorTouch){
-    lines.push('\nTHIS IS TOUCH 3, the final note of the sequence (channel: ' + priorTouch.channel + '). Change mode: 60 to 90 words of concrete usefulness, one small example of what we could establish for them, a specific output we could put in their hands, or one final low-pressure question. Never a third market observation, and never the fixed 30-minute close: end so the reader can answer with yes, no or not me in one line. It reads as a natural last word, never a chase, and is the last communication. Earlier subject: ' + priorTouch.subject + '. If this touch is an email, subject is "Re: ' + priorTouch.subject + '"; if an InMail, use a fresh three to seven word subject.');
+    lines.push('\nTHIS IS TOUCH 3, the final note of the sequence (channel: ' + priorTouch.channel + '). Change mode: 60 to 90 words of concrete usefulness. Name the one question a first conversation would usefully settle for them, or the one thing we would want to test together, or ask one final low-pressure question. Apply the promise rule: never offer analysis, a mapping or an output as if it already exists or as free work; a conversation is the only thing on the table. Never a third market observation, and never the fixed 30-minute close: end so the reader can answer with yes, no or not me in one line. It reads as a natural last word, never a chase, and is the last communication. Earlier subject: ' + priorTouch.subject + '. If this touch is an email, subject is "Re: ' + priorTouch.subject + '"; if an InMail, use a fresh three to seven word subject.');
   }
   if (forced) lines.push('\nYou must write the email. A leave verdict is forbidden on this run.');
   lines.push('\nFirst decide: is there one thing this email brings that the person does not already have? If not' + (forced ? ' (not permitted on this run)' : '') + ', return {"decision":"leave","reason":"..."}.');
@@ -1958,10 +1991,7 @@ function render(){
     brand2.textContent = 'FutureBridge CNR practice';
     html += '<div class="rail-item' + (App.page === 'home' ? ' on' : '') + '" onclick="App.goHome()"><span>All accounts</span></div>';
     if (isSuper()){
-      html += '<div class="rail-item' + (App.page === 'access' ? ' on' : '') + '" onclick="App.go(\'access\')"><span>Access</span></div>';
-      html += '<div class="rail-item' + (App.page === 'activity' ? ' on' : '') + '" onclick="App.go(\'activity\')"><span>Activity</span></div>';
-      html += '<div class="rail-item' + (App.page === 'newstudio' ? ' on' : '') + '" onclick="App.go(\'newstudio\')"><span>New account studio</span></div>';
-      html += '<div class="rail-item' + (App.page === 'newov' ? ' on' : '') + '" onclick="App.go(\'newov\')"><span>New account overview</span></div>';
+      html += '<div class="rail-item' + (['hubsettings','access','activity','newstudio','newov'].indexOf(App.page) >= 0 ? ' on' : '') + '" onclick="App.go(\'hubsettings\')"><span>Hub settings</span></div>';
     }
   } else {
     var a = accountById(App.account);
@@ -1977,14 +2007,26 @@ function render(){
         if (n.id === 'approved'){ var c = approvedItems().length; if (c) badge = '<span class="rail-badge calm">' + c + '</span>'; }
         if (n.id === 'contacts' && due) badge = '<span class="rail-badge">' + due + '</span>';
       }
-      html += '<div class="rail-item' + (App.page === n.id ? ' on' : '') + '" onclick="App.go(\'' + n.id + '\')"><span>' + n.label + '</span>' + badge + '</div>';
+      var label = (!full && n.id === 'contacts' && userRole() === 'read') ? 'Contacts and profiles' : n.label;
+      html += '<div class="rail-item' + (App.page === n.id ? ' on' : '') + '" onclick="App.go(\'' + n.id + '\')"><span>' + label + '</span>' + badge + '</div>';
     });
   }
   nav.innerHTML = html;
   document.getElementById('rail-user').innerHTML = 'Signed in as<br>' + esc(App.user) + '<br><span class="rail-signout" onclick="App.signOut()">Sign out</span>';
   var page = document.getElementById('page');
-  /* Access is enforced here, at render time, for every page of every account. */
-  if (App.account && App.page !== 'summary' && App.page !== 'settings' && !canFull(App.account)){
+  /* Access is enforced here, at render time, for every page of every account.
+     Read users get the summary, the read-only contacts and profiles view, and
+     their own settings; everything else renders nothing. */
+  if (App.account && !canFull(App.account)){
+    var allowed = ['summary','settings'];
+    if (userRole() === 'read') allowed.push('contacts');
+    if (allowed.indexOf(App.page) < 0){
+      page.innerHTML = '<p class="muted">Nothing to show.</p>';
+      return;
+    }
+  }
+  /* Hub settings pages are super admin territory, tested at render time. */
+  if (!App.account && ['hubsettings','access','activity','newstudio','newov'].indexOf(App.page) >= 0 && !isSuper()){
     page.innerHTML = '<p class="muted">Nothing to show.</p>';
     return;
   }
@@ -2002,7 +2044,7 @@ PAGES.home = function(){
   var nDrafts = Central.all().filter(function(r){ return !r.deleted; }).length;
   var h = '<div class="hero"><div class="hk">FutureBridge, Chemicals and Natural Resources</div>' +
     '<h1>The accounts this practice is pursuing</h1>' +
-    '<p>Open an account to work its studio. Your level on each tile decides what opens: Full studio is the complete workspace; Overview only is the executive read.</p>' +
+    '<p>Open an account to work its studio. Your access level decides what opens: administrators get the complete workspace, read access opens the account overview plus the contacts and their researched profiles.</p>' +
     '<div class="hrule"></div>' +
     '<div class="hstats">' +
     '<div class="hstat"><div class="n">' + accounts.length + '</div><div class="l">Accounts</div></div>' +
@@ -2013,7 +2055,7 @@ PAGES.home = function(){
   accounts.forEach(function(a){
     var full = canFull(a.id);
     var chip = (a.type === 'overview') ? '<span class="pill grey">Overview only</span>'
-      : (full ? '<span class="pill green">Full studio</span>' : '<span class="pill grey">Overview only</span>');
+      : (full ? '<span class="pill green">Full studio</span>' : (userRole() === 'read' ? '<span class="pill grey">Read access</span>' : '<span class="pill grey">Overview only</span>'));
     var facts = '';
     if (a.type === 'studio'){
       var L = a.layer;
@@ -2035,8 +2077,7 @@ PAGES.home = function(){
       '</div></div>';
   });
   if (isSuper()){
-    h += '<div class="tile add" onclick="App.go(\'newstudio\')"><div class="add-in"><div class="add-plus">+</div><div><b>Add an account studio</b><br><span class="small muted">From a brief or a prepared layer. The full machinery, no development.</span></div></div></div>';
-    h += '<div class="tile add" onclick="App.go(\'newov\')"><div class="add-in"><div class="add-plus">+</div><div><b>Add an account overview</b><br><span class="small muted">A readable tile from a pasted or uploaded document.</span></div></div></div>';
+    h += '<div class="tile add" onclick="App.go(\'hubsettings\')"><div class="add-in"><div class="add-plus">+</div><div><b>Hub settings</b><br><span class="small muted">Add account studios and overviews, manage access, review activity.</span></div></div></div>';
   }
   h += '</div>';
   if (SUPER_ADMINS.indexOf(App.user) >= 0 && !isSuper()){
@@ -2053,12 +2094,38 @@ PAGES.home = function(){
   return h;
 };
 
+/* ---------- Hub settings, super admin only ---------- */
+PAGES.hubsettings = function(){
+  if (!isSuper()) return '<p class="muted">Nothing to show.</p>';
+  var st = Cloud.status || { state: 'off', detail: '' };
+  var stCls = st.state === 'ok' ? 'ok' : st.state === 'error' ? 'err' : 'warn';
+  var stLead = st.state === 'ok' ? 'Shared store: connected. Access and new accounts reach every device.' : st.state === 'error' ? 'Shared store problem. ' + (st.detail || '') : 'Shared store: not configured. Anything created here applies only on this device.';
+  var h = '<h1>Hub settings</h1><p class="muted">Everything that shapes the hub itself lives here: new accounts, who gets in and at what level, and what everyone has been doing. Only the super admin can see this page; it is enforced every time the page renders.</p>';
+  h += '<div class="banner ' + stCls + '">' + esc(stLead) + '</div>';
+  h += '<div class="tiles">';
+  h += '<div class="tile add" onclick="App.go(\'newstudio\')"><div class="add-in"><div class="add-plus">+</div><div><b>New account studio</b><br><span class="small muted">The full machinery from a brief or a prepared layer, on the same rules and design as Ecolab and Solenis.</span></div></div></div>';
+  h += '<div class="tile add" onclick="App.go(\'newov\')"><div class="add-in"><div class="add-plus">+</div><div><b>New account overview</b><br><span class="small muted">A readable tile from a pasted or uploaded document.</span></div></div></div>';
+  h += '<div class="tile add" onclick="App.go(\'access\')"><div class="add-in"><div class="add-plus">&#9998;</div><div><b>Access</b><br><span class="small muted">Add people, set their level: admin or read. Reset passwords.</span></div></div></div>';
+  h += '<div class="tile add" onclick="App.go(\'activity\')"><div class="add-in"><div class="add-plus">&#9776;</div><div><b>Activity</b><br><span class="small muted">Who signed in, what they generated, edited and downloaded.</span></div></div></div>';
+  h += '</div>';
+  /* The complete configuration set lives here too, so a new studio can be
+     created and run without ever opening an existing one. One set of keys
+     powers every studio; the studio Settings pages read the same values. */
+  h += '<h2 style="margin-top:22px;">Configuration for every studio</h2>';
+  h += '<p class="muted">One set of settings powers Ecolab, Solenis and every studio you create from here: the writing model and API keys drive research and drafting, HubSpot drives push, Voice sets the sign-off, and the shared store carries users, access and records to every device. Set them once, save, and any new account studio starts with full functionality.</p>';
+  h += cardModelHtml();
+  h += cardHubspotHtml();
+  h += cardVoiceHtml();
+  h += cardStoreHtml();
+  h += '<div class="row2"><button class="primary" onclick="App.saveSettings()">Save settings</button></div>';
+  return h;
+};
+
 /* ---------- Access panel, super admin only ---------- */
 PAGES.access = function(){
   if (!isSuper()) return '<p class="muted">Nothing to show.</p>';
   var users = hubUsers();
-  var studios = allAccounts().filter(function(a){ return a.type === 'studio'; });
-  var h = '<h1>Access</h1><p class="muted">Everyone listed here can sign in and read every account summary. Full studio access and Oversight rights are granted per account. Changes take effect at the next render and are written to the action log.</p>';
+  var h = '<h1>Access</h1><p class="muted">Three levels. Admin opens every studio: research, drafting, editing, review, approval and the practice-review and approved downloads, but no contact uploads and no hub settings. Read opens the account overviews plus the contacts and their researched profiles, nothing else. The super admin emails are fixed in the file. Changes take effect at the next render and are written to the action log.</p>';
   var st = Cloud.status || { state: 'off', detail: '' };
   var stCls = st.state === 'ok' ? 'ok' : st.state === 'error' ? 'err' : 'warn';
   var stLead = st.state === 'ok' ? 'Shared store: connected. ' : st.state === 'error' ? 'Shared store problem. ' : 'Shared store: not configured. Users added here can sign in only on this device until it is connected. ';
@@ -2067,26 +2134,32 @@ PAGES.access = function(){
   h += '<div class="card"><h3>Add a user</h3><div class="row2">' +
     '<input type="text" id="au-email" placeholder="email@futurebridge.com" style="max-width:260px;">' +
     '<input type="text" id="au-pw" placeholder="Temporary password" style="max-width:200px;">' +
+    '<select id="au-role" style="max-width:130px;"><option value="read">Read</option><option value="admin">Admin</option></select>' +
     '<button class="mini primary" onclick="App.addHubUser()">Add user</button></div>' +
     '<p class="small muted" style="margin-top:8px;">Share the temporary password directly with the person. They can change it in Settings once signed in. Passwords are stored only as salted hashes; client-side gating in a static file is trust-level access control for a small team, not hardened security.</p></div>';
-  h += '<div class="card"><table class="grid"><tr><th>User</th>';
-  studios.forEach(function(a){ h += '<th>' + esc(a.name) + '</th>'; });
-  h += '<th>Password</th><th></th></tr>';
+  h += '<div class="card"><table class="grid"><tr><th>User</th><th>Level</th><th>Password</th><th></th></tr>';
   var emails = Object.keys(users).sort();
-  if (!emails.length) h += '<tr><td colspan="' + (studios.length + 3) + '" class="muted">Nobody has been added yet. Add the first user above.</td></tr>';
+  if (!emails.length) h += '<tr><td colspan="4" class="muted">Nobody has been added yet. Add the first user above.</td></tr>';
   emails.forEach(function(em){
     var rec = users[em] || {};
-    h += '<tr><td><b>' + esc(em) + '</b>' + (SUPER_ADMINS.indexOf(em) >= 0 ? '' : '') + '</td>';
-    studios.forEach(function(a){
-      var lvl = rec.levels && rec.levels[a.id] === 'full' ? 'full' : 'overview';
-      var adm = !!(rec.admins && rec.admins[a.id]);
-      h += '<td><select onchange="App.setLevel(\'' + esc(em) + '\',\'' + a.id + '\',this.value)">' +
-        '<option value="overview"' + (lvl === 'overview' ? ' selected' : '') + '>Overview</option>' +
-        '<option value="full"' + (lvl === 'full' ? ' selected' : '') + '>Full</option></select>' +
-        '<label class="small" style="display:block;margin-top:4px;"><input type="checkbox" ' + (adm ? 'checked' : '') + ' onchange="App.setAdminFlag(\'' + esc(em) + '\',\'' + a.id + '\',this.checked)"> Oversight</label></td>';
-    });
+    var isOwner = SUPER_ADMINS.indexOf(em) >= 0;
+    /* Show the effective role, legacy Full grants included. */
+    var role = rec.role;
+    if (!role){
+      role = 'read';
+      var lv = rec.levels || {};
+      for (var k in lv) if (lv[k] === 'full') role = 'admin';
+    }
+    h += '<tr><td><b>' + esc(em) + '</b></td>';
+    if (isOwner){
+      h += '<td><span class="pill green">Super admin</span></td>';
+    } else {
+      h += '<td><select onchange="App.setRole(\'' + esc(em) + '\',this.value)">' +
+        '<option value="read"' + (role === 'read' ? ' selected' : '') + '>Read</option>' +
+        '<option value="admin"' + (role === 'admin' ? ' selected' : '') + '>Admin</option></select></td>';
+    }
     h += '<td><button class="mini" onclick="App.resetPw(\'' + esc(em) + '\')">Reset</button></td>';
-    h += '<td><button class="mini danger" onclick="App.removeHubUser(\'' + esc(em) + '\')">Remove</button></td></tr>';
+    h += '<td>' + (isOwner ? '' : '<button class="mini danger" onclick="App.removeHubUser(\'' + esc(em) + '\')">Remove</button>') + '</td></tr>';
   });
   h += '</table></div>';
   return h;
@@ -2108,26 +2181,21 @@ App.unlockAdmin = function(){
 App.addHubUser = function(){
   var em = (document.getElementById('au-email').value || '').trim().toLowerCase();
   var pw = document.getElementById('au-pw').value || '';
+  var role = (document.getElementById('au-role') || {}).value === 'admin' ? 'admin' : 'read';
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ alert('Enter a full email address.'); return; }
   if (pw.length < 6){ alert('Choose a temporary password of at least six characters.'); return; }
   setUserPassword(em, pw);
-  Log.add('edit', 'access: user added ' + em);
+  var users = hubUsers(); if (users[em]){ users[em].role = role; saveHubUsers(users); Cloud.pushUser(em); }
+  Log.add('edit', 'access: user added ' + em + ' as ' + role);
   render();
 };
-App.setLevel = function(em, acct, val){
+App.setRole = function(em, val){
   var users = hubUsers(); var rec = users[em]; if (!rec) return;
-  rec.levels = rec.levels || {};
-  if (val === 'full') rec.levels[acct] = 'full'; else delete rec.levels[acct];
+  rec.role = (val === 'admin') ? 'admin' : 'read';
+  /* Clear legacy per-account grants so the role is the single truth. */
+  delete rec.levels; delete rec.admins;
   saveHubUsers(users); Cloud.pushUser(em);
-  Log.add('edit', 'access: ' + em + ' set to ' + val + ' on ' + acct);
-  render();
-};
-App.setAdminFlag = function(em, acct, on){
-  var users = hubUsers(); var rec = users[em]; if (!rec) return;
-  rec.admins = rec.admins || {};
-  if (on) rec.admins[acct] = true; else delete rec.admins[acct];
-  saveHubUsers(users); Cloud.pushUser(em);
-  Log.add('edit', 'access: ' + em + (on ? ' granted' : ' removed') + ' Oversight on ' + acct);
+  Log.add('edit', 'access: ' + em + ' set to ' + rec.role);
   render();
 };
 App.resetPw = function(em){
@@ -2308,7 +2376,8 @@ function sanitizeLayer(L){
 }
 PAGES.newstudio = function(){
   if (!isSuper()) return '<p class="muted">Nothing to show.</p>';
-  var h = '<h1>New account studio</h1><p class="muted">Creates a complete studio, with the full writing, research, audit and sequence machinery, from an account layer. No development is needed: generate the layer here from a pasted brief, or paste a layer JSON prepared outside.</p>';
+  var h = '<h1>New account studio</h1><p class="muted">Creates a complete studio, with the full writing, research, audit and sequence machinery, from an account layer. No development is needed: generate the layer here from a pasted brief, or paste a layer JSON prepared outside. The new studio runs on exactly the same rules, design and settings as Ecolab and Solenis: same writing standard, same enforcement, same access levels, same keys.</p>';
+  if (!Store.get('anthropic_key')) h += '<div class="banner warn">No Anthropic API key is saved on this device yet, so generating a layer from a brief will not run. Save the key under Hub settings, Configuration for every studio, then come back here.</div>';
   if (App.nsBusy) h += '<div class="banner info">' + esc(App.nsBusy) + '</div>';
   if (App.nsError) h += '<div class="banner err">' + esc(App.nsError) + '</div>';
   if (App.nsPreview){
@@ -2474,7 +2543,68 @@ PAGES.method = function(){
 };
 
 /* ---------- Contacts and emails ---------- */
+/* ----- Read-only contacts and profiles, for read access users ----- */
+function readContactsView(){
+  var h = '<h1>Contacts and profiles</h1>';
+  h += '<p class="muted">The contacts this studio has researched, with the profile each one earned, and the recommended role profiles from the account brief. Read access shows the people and the research; drafting, review and exports sit with the practice team.</p>';
+  /* Researched contacts come from the shared central record, newest first,
+     one card per person, profile detail included, drafts excluded. */
+  var seen = {};
+  var recs = Central.all().filter(function(r){ return !r.deleted && r.account === App.account; });
+  var cards = [];
+  for (var i = recs.length - 1; i >= 0; i--){
+    var r = recs[i];
+    var key = String(r.contact || '').trim().toLowerCase();
+    if (!key || seen[key]) continue;
+    seen[key] = true;
+    var p = r.profile || {};
+    var c = '<div class="card"><div class="row2" style="justify-content:space-between;"><h3 style="margin:0;">' + esc(r.contact) + '</h3>' +
+      '<span class="pill ' + (r.status === 'approved' ? 'green' : r.status === 'review' ? 'blue' : 'grey') + '">' +
+      (r.status === 'approved' ? 'Comms approved' : r.status === 'review' ? 'In practice review' : 'Researched') + '</span></div>';
+    c += '<div class="kv" style="margin-top:8px;">' +
+      (r.title ? '<div class="k">Role</div><div class="v">' + esc(r.title) + '</div>' : '') +
+      (r.company ? '<div class="k">Company</div><div class="v">' + esc(r.company) + '</div>' : '') +
+      (p.region ? '<div class="k">Region</div><div class="v">' + esc(p.region) + '</div>' : '') +
+      (p.remit ? '<div class="k">Remit in plain words</div><div class="v">' + esc(p.remit) + '</div>' : '') +
+      '</div>';
+    if (p.signals){
+      c += '<h3>Signals the research found</h3><ul class="small">';
+      String(p.signals).split(' | ').filter(Boolean).forEach(function(s){ c += '<li>' + esc(s) + '</li>'; });
+      c += '</ul>';
+    }
+    c += '<p class="small muted">Profile generated ' + fmtDateTime(r.ts) + ' by ' + esc(r.author || '') + '</p></div>';
+    cards.push(c);
+  }
+  h += '<h2>Researched contacts</h2>';
+  h += cards.length ? cards.join('') : '<div class="card"><p class="muted">No contact has been researched in this studio yet.</p></div>';
+  /* The recommended role profiles from the account layer: the seat, what it
+     owns, the pressures and the angle. The drafts stay with the practice. */
+  var profs = (ACCT() && ACCT().profiles) || [];
+  if (profs.length){
+    h += '<h2>Recommended role profiles from the brief</h2>';
+    profs.forEach(function(p){
+      var wedge = ACCT().wedges && ACCT().wedges[p.wedge - 1];
+      h += '<div class="card"><div class="row2" style="justify-content:space-between;"><h3 style="margin:0;">' + esc(p.role) + '</h3><span class="pill blue">Wedge ' + p.wedge + '</span></div>';
+      h += '<div class="kv" style="margin-top:8px;">' +
+        '<div class="k">What this seat owns</div><div class="v">' + esc(p.owns) + '</div>' +
+        '<div class="k">Likely pressures</div><div class="v">' + esc(p.pressures) + '</div>' +
+        (p.angle ? '<div class="k">The angle</div><div class="v">' + esc(p.angle) + '</div>' : '') +
+        (p.help ? '<div class="k">How we would help</div><div class="v">' + esc(p.help) + '</div>' : '') +
+        (wedge ? '<div class="k">The wedge it serves</div><div class="v">' + esc(wedge.title) + '</div>' : '') +
+        '</div>';
+      if (p.pains && p.pains.length){
+        h += '<h3>Mapped pain points</h3><ul>';
+        p.pains.forEach(function(pp){ h += '<li><b>' + esc(pp.p) + '</b> ' + esc(pp.why) + '</li>'; });
+        h += '</ul>';
+      }
+      h += '</div>';
+    });
+  }
+  return h;
+}
+
 PAGES.contacts = function(){
+  if (!canFull(App.account)) return readContactsView();
   var due = seqDueCount();
   var tabs = [
     { id: 'profiles', label: 'Recommended profiles' },
@@ -2784,13 +2914,17 @@ function tabList(){
   var list = contacts();
   var counts = {};
   list.forEach(function(c){ var st = contactStage(c); counts[st] = (counts[st] || 0) + 1; });
-  var h = '<p class="muted">Upload a CSV (a name column is required; title, company, email, LinkedIn and unit are used when present), download the template, or add one contact at a time. Uploaded names are checked against Practice review and Approved emails: matches arrive tagged Old with their earlier comms attached, ready to reuse or regenerate.</p>';
+  var h = '<p class="muted">' + (canUploadContacts()
+    ? 'Upload a CSV (a name column is required; title, company, email, LinkedIn and unit are used when present), download the template, or add one contact at a time. Uploaded names are checked against Practice review and Approved emails: matches arrive tagged Old with their earlier comms attached, ready to reuse or regenerate.'
+    : 'Add one contact at a time. CSV uploads are reserved for the super admin; ask them to load a batch.') + '</p>';
   if (list.length) h += stageStrip(counts, list.length + ' contact' + (list.length === 1 ? '' : 's'));
   if (App.uploadNote){ h += '<div class="banner info">' + esc(App.uploadNote) + '</div>'; }
   h += '<div class="batchbar">' +
-    '<input type="file" id="csv-file" accept=".csv" style="display:none;" onchange="App.csvUpload(this)">' +
-    '<button class="mini" onclick="document.getElementById(\'csv-file\').click()">Upload CSV</button>' +
-    '<button class="mini" onclick="App.csvTemplate()">Template</button>' +
+    (canUploadContacts()
+      ? '<input type="file" id="csv-file" accept=".csv" style="display:none;" onchange="App.csvUpload(this)">' +
+        '<button class="mini" onclick="document.getElementById(\'csv-file\').click()">Upload CSV</button>' +
+        '<button class="mini" onclick="App.csvTemplate()">Template</button>'
+      : '') +
     '<button class="mini" onclick="App.addContactOpen()">Add contact</button>' +
     '<span style="flex:1;"></span>' +
     '<button class="mini" onclick="App.selectAll(true)">Select all</button>' +
@@ -2940,6 +3074,7 @@ App.csvTemplate = function(){
   download('contact-template.csv', 'name,title,company,email,linkedin,unit,city,country\nJane Example,Marketing Director,Ecolab,jane@example.com,https://www.linkedin.com/in/example,Institutional,Madrid,Spain\n', 'text/csv');
 };
 App.csvUpload = function(input){
+  if (!canUploadContacts()){ alert('CSV uploads are reserved for the super admin.'); return; }
   var f = input.files[0]; if (!f) return;
   var reader = new FileReader();
   reader.onload = function(){
@@ -3125,14 +3260,16 @@ function tabReview(){
   h += '<div class="row2" style="margin-bottom:10px;">' +
     '<button class="mini" onclick="App.reviewShowAll=!App.reviewShowAll;render()">' + (showAll ? 'Show in-review only' : 'Show approved too') + '</button>' +
     '<button class="mini" onclick="App.reviewExport()">Export CSV for HubSpot or mail merge</button></div>';
-  h += '<div class="card"><h3>Import an earlier extraction</h3>' +
-    '<p class="small muted">Rebuilds records from a CSV the studio exported earlier, including from the previous deployment: the contacts are recreated and tagged Old, the mails land in the status you choose, and follow-up touches can then be generated over them in one batch. Columns are matched by name, so the old single-studio exports and the new matrix files both work.</p>' +
-    '<div class="row2">' +
-    '<select id="imp-status" style="max-width:200px;"><option value="approved">Import as Approved</option><option value="review">Import as In review</option><option value="keep">Keep statuses from the file</option></select>' +
-    '<input type="file" id="imp-file" accept=".csv" style="display:none;" onchange="App.importExtraction(this)">' +
-    '<button class="mini primary" onclick="document.getElementById(\'imp-file\').click()">Choose the CSV and import</button></div>' +
-    (App.importNote ? '<div class="banner ok" style="margin-top:10px;">' + esc(App.importNote) + '</div>' : '') +
-    '</div>';
+  if (canUploadContacts()){
+    h += '<div class="card"><h3>Import an earlier extraction</h3>' +
+      '<p class="small muted">Rebuilds records from a CSV the studio exported earlier, including from the previous deployment: the contacts are recreated and tagged Old, the mails land in the status you choose, and follow-up touches can then be generated over them in one batch. Columns are matched by name, so the old single-studio exports and the new matrix files both work.</p>' +
+      '<div class="row2">' +
+      '<select id="imp-status" style="max-width:200px;"><option value="approved">Import as Approved</option><option value="review">Import as In review</option><option value="keep">Keep statuses from the file</option></select>' +
+      '<input type="file" id="imp-file" accept=".csv" style="display:none;" onchange="App.importExtraction(this)">' +
+      '<button class="mini primary" onclick="document.getElementById(\'imp-file\').click()">Choose the CSV and import</button></div>' +
+      (App.importNote ? '<div class="banner ok" style="margin-top:10px;">' + esc(App.importNote) + '</div>' : '') +
+      '</div>';
+  }
   if (!items.length) h += '<div class="card"><p class="muted">Nothing is waiting for review. Use Save for practice review on any draft and it will appear here for editing and approval.</p></div>';
   items.forEach(function(r){
     var locked = r.status === 'approved';
@@ -3165,6 +3302,7 @@ function cleanCell(v){
   return (v === 'Not generated' || v === 'not generated') ? '' : v;
 }
 App.importExtraction = function(input){
+  if (!canUploadContacts()){ alert('CSV imports are reserved for the super admin.'); return; }
   var f = input.files[0]; if (!f) return;
   var statusChoice = document.getElementById('imp-status').value;
   var reader = new FileReader();
@@ -3782,10 +3920,13 @@ App.cloudRefresh = function(){
 };
 
 /* ---------- Settings ---------- */
-PAGES.settings = function(){
-  var full = canFull(App.account);
-  var h = '<h1>Settings</h1>';
-  if (full) h += '<div class="card"><h2>Model access</h2>' +
+/* The configuration cards are shared between the studio Settings page and
+   the hub settings page, so every studio, including ones created later,
+   runs off the same keys, model, voice and store. Same element IDs both
+   places; App.saveSettings and App.testConn work wherever they render. */
+function cardModelHtml(){
+  var h = '<div class="card"><h2>Model access</h2>' +
+    '<p class="small muted">These keys power research, drafting, audit and repair in every account studio, current and future. Saved on this device and used by every studio you open from here.</p>' +
     '<label class="f">Anthropic API key</label><input type="password" id="st-key" value="' + esc(Store.get('anthropic_key') || '') + '" placeholder="sk-ant-...">' +
     '<label class="f">Writing model</label><select id="st-model">';
   MODELS.forEach(function(m){
@@ -3798,24 +3939,41 @@ PAGES.settings = function(){
     '<div class="row2" style="margin-top:12px;"><button class="mini" onclick="App.testConn()">Test connection</button></div>' +
     (App.connNote ? '<div class="banner info" style="margin-top:10px;">' + App.connNote + '</div>' : '') +
     '</div>';
-  if (full) h += '<div class="card"><h2>HubSpot</h2>' +
+  return h;
+}
+function cardHubspotHtml(){
+  return '<div class="card"><h2>HubSpot</h2>' +
     '<p class="small muted">For push. HubSpot blocks direct browser calls to its API, so a relay URL (a small forwarder that holds the token, for example a Cloudflare Worker) is what enables one-click push; with a token alone the studio attempts a direct call and falls back to the structured import file. Without either, Push to HubSpot produces the import file.</p>' +
     '<label class="f">Private app token (optional)</label><input type="password" id="st-hst" value="' + esc(Store.get('hs_token') || '') + '" placeholder="pat-...">' +
     '<label class="f">Relay URL (optional)</label><input type="text" id="st-hsp" value="' + esc(Store.get('hs_proxy') || '') + '" placeholder="https://your-relay.example.workers.dev">' +
     '</div>';
-  if (full) h += '<div class="card"><h2>Voice</h2>' +
+}
+function cardVoiceHtml(){
+  return '<div class="card"><h2>Voice</h2>' +
     '<label class="f">Email sign-off</label><select id="st-signoff">' +
     ['Best regards,','Thanks,','Kind regards,'].map(function(s){ return '<option' + (signoff() === s ? ' selected' : '') + '>' + s + '</option>'; }).join('') +
     '</select>' +
     '<label class="f">Sender name</label><input type="text" id="st-sender" value="' + esc(senderName()) + '">' +
     '</div>';
-  if (isSuper()) h += '<div class="card"><h2>Shared store (optional)</h2>' +
+}
+function cardStoreHtml(){
+  return '<div class="card"><h2>Shared store (optional)</h2>' +
     '<p class="small muted">About five minutes to set up: console.firebase.google.com, add a project, Build, Firestore Database, create in test mode, choose a region, then copy the project ID and web API key from project settings into the fields below. Test-mode rules expire after roughly thirty days; replace them with: allow read, write: if true. Anyone holding the key can read and write this store, which is acceptable for internal prospecting data; client-side sign-in in a static file is trust-level access control for a small team, not hardened security. Without the keys the studio runs local-only.</p>' +
     '<label class="f">Firebase project ID</label><input type="text" id="st-fbp" value="' + esc(Store.get('fb_project') || '') + '">' +
     '<label class="f">Web API key</label><input type="password" id="st-fbk" value="' + esc(Store.get('fb_key') || '') + '">' +
     '<div class="row2" style="margin-top:10px;"><button class="mini" onclick="App.cloudRefresh()">Refresh from shared store</button></div>' +
     (App.cloudNote ? '<div class="banner info" style="margin-top:8px;">' + esc(App.cloudNote) + '</div>' : '') +
     '</div>';
+}
+
+PAGES.settings = function(){
+  var full = canFull(App.account);
+  var h = '<h1>Settings</h1>';
+  if (isSuper()) h += '<div class="banner info">These are the same settings as Hub settings on the home screen; one set powers every studio. Saving here saves them everywhere.</div>';
+  if (full) h += cardModelHtml();
+  if (full) h += cardHubspotHtml();
+  if (full) h += cardVoiceHtml();
+  if (isSuper()) h += cardStoreHtml();
   h += '<div class="card"><h2>Identity</h2>' +
     '<p>Signed in as <b>' + esc(App.user) + '</b>.</p>' +
     '<div class="row2"><button class="mini" onclick="App.signOut()">Sign out</button></div>' +
