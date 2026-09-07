@@ -733,6 +733,8 @@ ACCOUNT_ECOLAB.evidenceRules = {
 /* Condensed factual context handed to the model for research,
    drafting and the assistant. Verified public facts only, plus
    clearly flagged internal boundaries. */
+ACCOUNT_ECOLAB.checkGate = 'Q2 2026 results were scheduled for 28 July 2026, after the brief cut-off. Before any meeting or outreach after that date, recheck the Q2 release, supplemental and earnings-call commentary: segment momentum, post-close leverage, surcharge recovery and integration language may all have moved. The studio holds no Q2 figures and none may be invented.';
+
 ACCOUNT_ECOLAB.modelContext = [
 'ACCOUNT CONTEXT: Ecolab Inc. (NYSE: ECL), Saint Paul, Minnesota. 2025 net sales $16.081bn (up 2% reported); 48,000 associates; customers in 170+ countries. Four reportable segments since 1 Jan 2025: Global Water; Global Institutional & Specialty; Global Pest Elimination; Global Life Sciences. Never use the older Global Industrial / Global Healthcare structure.',
 'Q1 2026: reported sales $4.1bn up 10%; organic +4% (pricing 3%, volume 1%); adjusted OI margin 16.7% up 70bp. FY2026 guidance after CoolIT close: adjusted diluted EPS $8.03-$8.23 up 7-9%. Global 10-14% energy surcharge on all products and services from 1 Apr 2026. Q2 2026 results were scheduled for 28 Jul 2026, after the brief cut-off: any use after that date requires a manual recheck first.',
@@ -769,13 +771,192 @@ var SOL_DOC_B64 = 'UEsDBBQAAggIAONL0FwIaLrOgwEAAI0HAAATAAAAW0NvbnRlbnRfVHlwZXNdL
 ACCOUNT_ECOLAB.doc = { name: 'Ecolab_Account_Brief_21.07.26.docx', b64: EC_DOC_B64, label: 'The original account brief of 21 July 2026, the source document behind this overview.' };
 ACCOUNT_SOLENIS.doc = { name: 'Solenis_Account_Brief_16.06.2026_SH.docx', b64: SOL_DOC_B64, label: 'The original account brief of 16 June 2026, the source document behind this overview.' };
 /* ============================================================
+   THE KEMIRA ACCOUNT LAYER. Built from public sources with a
+   research cut-off of 7 September 2026. No fact, name, wedge or
+   draft may cross between accounts. Every figure traces to the
+   register under Sources and checks.
+   ============================================================ */
+
+var ACCOUNT_KEMIRA = {};
+
+ACCOUNT_KEMIRA.company = 'Kemira';
+ACCOUNT_KEMIRA.briefDate = '7 September 2026';
+
+ACCOUNT_KEMIRA.summaryHtml = [
+'<h1>Kemira is tilting the company toward water while its packaging chemistry carries the 2026 regulation moment</h1>',
+'<p class="muted small">Account summary built from public company sources with a research cut-off of 7 September 2026. Figures and dates trace to the register under Sources and checks. Where the public record is silent, the gap is treated as a question to ask, never a number to invent.</p>',
+
+'<div class="card"><h2>Ownership and scale</h2>',
+'<p>Kemira Oyj is a Helsinki-headquartered, Nasdaq Helsinki listed chemicals company led by President and CEO Antti Salminen. Full-year 2025 revenue was EUR 2,753.5m, down 5% on 2024, with operative EBITDA of EUR 524.6m and a 19.1% margin, inside the company\'s 18 to 21% target range. Around 4,900 people. The company guided 2026 revenue of EUR 2,600m to 3,000m and operative EBITDA of EUR 470m to 570m, and described 2025 as solid profitability in a continued weak market environment. [S1]</p>',
+'<p>3 business units. Water Solutions, around 45% of sales: coagulants, polymers and, increasingly, treatment services for municipal and industrial water, where Kemira states the number 1 position in European coagulants and polymers and a top 3 position in North America. Packaging and Hygiene Solutions, around 35%: chemistry for paper, board and tissue makers, stated number 2 globally. Fiber Essentials, around 20%: bleaching chemicals and sodium chlorate for pulp producers, with roughly a fifth of global sodium chlorate capacity. [S2]</p></div>',
+
+'<div class="card"><h2>The deliberate tilt toward water</h2>',
+'<p>Kemira divested its oil and gas chemicals business in February 2024 and has since stated an ambition to double its water-related revenue. The build-out is visible in a run of acquisitions that add services and regional depth rather than just capacity. [S4][S7]</p>',
+'<table class="grid"><tr><th>Move</th><th>Status</th><th>What it changes</th></tr>',
+'<tr><td>Water Engineering, Inc., September 2025, approx USD 150m</td><td>Completed October 2025</td><td>US industrial water and wastewater services: equipment, chemicals and consulting across food and beverage, manufacturing and healthcare, with coverage reported at 43 states through 14 facilities and 2025 revenue above USD 60m. Moves Kemira from selling chemistry into owning the service relationship. [S4][S12]</td></tr>',
+'<tr><td>AquaBlue, Inc., completed January 2026</td><td>Completed</td><td>Ohio-based industrial water treatment services, about USD 9m expected 2025 revenue. Small in itself; described by Water Solutions EVP Tuija Pohjolainen-Hiltunen as the second step on a platform for North American industrial water services growth. [S5]</td></tr>',
+'<tr><td>SIDRA Wasserchemie, announced February 2026, approx EUR 75m</td><td>Pending German cartel approval, close expected H1 2026</td><td>Family-owned German coagulant maker, around EUR 40m 2024 revenue, 2 production sites, customers in Germany, Belgium and the Netherlands. Framed by Kemira as another step toward doubling water revenue in Western and Central Europe. [S6]</td></tr>',
+'<tr><td>Norit activated carbon reactivation, UK, plus a planned reactivation plant in Sweden</td><td>In progress</td><td>Positions Kemira in micropollutant and PFAS removal, where European regulation is pushing utilities toward activated carbon treatment. [S7]</td></tr></table>',
+'<details class="xd"><summary>What the services turn means commercially</summary><div class="xd-body">',
+'<p>The Water Engineering and AquaBlue purchases change what Kemira sells in North America: from products priced per tonne to outcomes priced per site. Industrial end users already account for about half of Water Solutions sales. The open commercial questions are which sectors convert to serviced accounts first, how Kemira chemistry pulls through the acquired service base, and whether the platform scales beyond the food and beverage, manufacturing and healthcare sectors the acquired companies served. None of these answers is public, which is precisely what makes them conversation material. [S4][S5][S12]</p></div></details></div>',
+
+'<div class="card"><h2>Packaging chemistry and the 2026 food-contact moment</h2>',
+'<p>Packaging and Hygiene Solutions sits directly in front of the European food-contact regulation wave. Kemira markets FennoGuard GO, a dispersion-based barrier coating positioned as a safe alternative to PFAS chemistries, with claimed recyclability and repulpability, proven runnability on paper, board and converting lines, and applications across foodservice board, takeaway containers, fresh bakery and pet food packaging. A bio-based line under the Fennobio name targets plastics replacement, and a collaboration with PA Consulting is developing renewable barrier coatings for flexible food packaging. Biomass-balanced wet strength additives extend the same logic into tissue and towel. [S8][S9][S10]</p>',
+'<details class="xd"><summary>The commercial question underneath the chemistry</summary><div class="xd-body">',
+'<p>The technical case for PFAS-free barriers is increasingly settled; the commercial sequencing is not. Which converters qualify ahead of the regulatory deadline and which wait on brand owners is the demand question that decides where Kemira\'s technical resources earn most, and it differs by application and country. The unit\'s Q4 2025 operative EBITDA margin of 12.3% was the lowest of the 3 units, which sharpens the prioritisation stakes. [S3]</p></div></details></div>',
+
+'<div class="card"><h2>The renewable ambition</h2>',
+'<p>Kemira targets EUR 500m of revenue from renewable solutions by the end of 2030, through 4 routes: expanding the current portfolio, converting fossil-based products to renewable, new renewable chemistries including biomass-balanced products, renewable coatings and the alpha-glucan platform developed with IFF since 2020, and exploration through partnerships. The ambition is public; the evidence on which renewable chemistries carry genuine paying demand, rather than stated interest, is not. [S7]</p></div>',
+
+'<div class="card"><h2>How to read this account</h2>',
+'<p>Kemira is mid-transformation on 2 fronts at once: buying its way into water services while its packaging chemistry rides a regulatory deadline. Both fronts create decisions that depend on demand evidence nobody inside the company can see from its own pipeline: which accounts convert to services, which converters move first, which renewable claims win orders. Those are the doors this studio\'s outreach knocks on. Soft market context above is framing; only the load-bearing claims under Sources and checks may be used in outreach.</p></div>'
+].join('\n');
+
+ACCOUNT_KEMIRA.wedges = [
+{
+  rank: 1,
+  title: 'Service-led industrial water growth in North America after Water Engineering and AquaBlue',
+  decision: 'Which industrial sectors and account types convert from buying chemistry to buying serviced outcomes first, and where the acquired platform should expand next.',
+  actors: 'Water Solutions leadership including the EVP, the North American services organisation built from the acquired companies, corporate development, and the plant owners and procurement leads who decide site by site.',
+  timing: 'Both acquisitions closed within the last year; integration choices about sector coverage and cross-selling are being made now.',
+  findOut: 'What actually tips an industrial account from products to services: compliance pressure, operator retirements, corporate water targets or something else, and how that differs across food and beverage, manufacturing and healthcare.',
+  boundary: 'We do not advise on deal targets or valuation. The wedge is demand evidence, gathered from the buying side.',
+  confidence: 'HIGH',
+  detail: { consequence: 'Sector-level conversion evidence directs the service build-out toward accounts that will actually buy outcomes, and protects the platform economics from expanding into sectors where chemistry-plus-contract is all the market wants.', whyExternal: 'The conversion trigger sits with plant owners and procurement leads outside Kemira\'s own funnel; internal pipeline data only shows accounts already in motion.', signals: 'Compliance events; water operator retirements and skills gaps; corporate water stewardship targets landing on plants; outsourcing history per sector; competitor service coverage.', question: 'What tips an industrial site from buying chemistry to buying a serviced outcome, and in which sector does that tip come first?' }
+},
+{
+  rank: 2,
+  title: 'PFAS-free barrier adoption ahead of the 2026 European food-contact deadline',
+  decision: 'Which converter and brand-owner segments to prioritise with technical resources as FennoGuard GO and the renewable barrier work compete for qualification slots.',
+  actors: 'Packaging and Hygiene Solutions commercial and marketing leadership, application teams, and the converters and brand owners who allocate qualification effort.',
+  timing: 'The European regulatory timeline lands in 2026; qualification decisions at converters are being taken now, and the unit\'s margin position sharpens the prioritisation stakes.',
+  findOut: 'Which buyers move before the deadline forces them, whether early movers sort by who carries qualification risk rather than by segment size, and where recyclability claims survive each customer\'s repulping reality.',
+  boundary: 'We test demand and qualification behaviour; we do not benchmark the chemistry itself.',
+  confidence: 'HIGH',
+  detail: { consequence: 'Getting the early-mover map right concentrates technical service where volume commits, in a unit whose profitability leaves least room for misdirected effort.', whyExternal: 'Converters tell their chemistry suppliers what suppliers want to hear; independent questioning reads qualification intent more honestly.', signals: 'Spec ownership between converter and brand owner; qualification slots and their gatekeepers; repulping trial outcomes; competitor barrier positioning; category-level deadlines.', question: 'Which converters will qualify a PFAS-free barrier before the deadline forces the issue, and which will wait however strong the chemistry?' }
+},
+{
+  rank: 3,
+  title: 'Turning tightening European water rules into coagulant and polymer orders, with SIDRA folding in',
+  decision: 'Where in Europe tightening discharge and micropollutant rules convert into changed treatment specifications soonest, and how the SIDRA footprint should be pointed once the deal clears.',
+  actors: 'Water Solutions EMEA leadership, the SIDRA organisation post-close, municipal utilities, industrial operators and the engineering consultants who write specifications.',
+  timing: 'SIDRA close expected in H1 2026 pending cartel approval; micropollutant and PFAS-related requirements are moving through member states at different speeds.',
+  findOut: 'Which utilities and industrial operators are re-specifying treatment programmes now, which are waiting on enforcement or budget cycles, and how the lag differs between Germany, the Nordics and Southern Europe.',
+  boundary: 'Regulatory interpretation stays with Kemira\'s own experts; the wedge is the buying-side sequence, not the law.',
+  confidence: 'MEDIUM-HIGH',
+  detail: { consequence: 'Reading the rule-to-spec lag by country directs sales capacity a season ahead of tender data, and gives the SIDRA integration a demand map rather than only a cost case.', whyExternal: 'Utilities speak more openly to independent researchers than to a supplier mid-acquisition; the lag is behavioural, not published.', signals: 'Re-specification activity; enforcement postures by country; utility budget cycles; activated carbon adoption for micropollutants; consultant specification habits.', question: 'Where does a tightening water rule become a changed spec first, and what is the lag by country?' }
+},
+{
+  rank: 4,
+  title: 'Separating paying demand from stated interest across the renewable solutions routes',
+  decision: 'Which of the 4 renewable routes and which specific chemistries deserve scarce development and commercial resource on the path to the 2030 ambition.',
+  actors: 'Group strategy and the renewable solutions programme, business unit leadership, partners including IFF, and the customers whose willingness to pay is the actual test.',
+  timing: 'The EUR 500m by 2030 target is public and the routes are declared; sequencing decisions recur through the strategy cycle.',
+  findOut: 'In which applications renewable content already wins the order on its own, where it only breaks ties after price and performance, and where interest is real but unpriced.',
+  boundary: 'We do not evaluate the science or the partnerships; we test what buyers will sign.',
+  confidence: 'MEDIUM',
+  detail: { consequence: 'An honest demand map, smaller than the pipeline suggests, keeps the 2030 path credible with the board and stops development effort chasing applause rather than orders.', whyExternal: 'Stated sustainability interest inflates inside any supplier\'s own conversations; a third party can ask the price question bluntly.', signals: 'Orders won on renewable content alone; premium acceptance by application and region; procurement scoring rules; competitor renewable claims and their traction.', question: 'Where does renewable content win the order on its own, and where does it only break ties?' }
+}
+];
+
+ACCOUNT_KEMIRA.profiles = [
+{
+  id: 'kp1', wedge: 1,
+  role: 'Commercial or growth leader, industrial water treatment services, North America',
+  owns: 'The build-out of the service-led industrial water business created by the Water Engineering and AquaBlue acquisitions: sector coverage, cross-selling Kemira chemistry into serviced accounts, and the growth case for what the platform does next.',
+  pressures: 'Turning 2 service acquisitions into 1 repeatable operating model; deciding which sectors get coverage investment first; competing against established service players while the platform is still forming; proving the model scales beyond the sectors the acquired companies already served.',
+  subject: 'Who buys water as a service',
+  email: 'Hi [First name],\n\nMost industrial accounts still buy water chemistry and site services separately. A smaller set has started buying the outcome, and the question that decides a growth plan is what tips an account from one column to the other.\n\nMy hunch is the tip is rarely price. It could be a compliance scare, a retiring water operator, or a corporate water target landing on a plant that never had one. Each of those points the growth effort at a different door.\n\nTesting that first hand with plant owners and procurement leads across food and beverage, manufacturing and healthcare is the kind of primary work FutureBridge does.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
+  inmail: 'Hi [First name],\n\nWhat tips an industrial site from buying water chemistry to buying a serviced outcome? My hunch is it is rarely price: a compliance scare, a retiring operator, or a new corporate water target each open that door differently, and each points growth at a different sector first. FutureBridge tests questions like this directly with the people who run the sites. If this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
+},
+{
+  id: 'kp2', wedge: 2,
+  role: 'Commercial or marketing leader, barrier coatings and packaging chemistry',
+  owns: 'Commercial traction of the PFAS-free barrier and packaging chemistry line with converters and brand owners: positioning, application priorities and where technical service effort concentrates.',
+  pressures: 'Converting regulatory pull into signed volume ahead of the 2026 European food-contact deadline; rival barrier chemistries chasing the same qualification slots; recyclability claims that must hold in each customer\'s repulping reality; choosing among foodservice board, flexible paper and pet food applications with finite application resource.',
+  subject: 'Which barrier buyers move first',
+  email: 'Hi [First name],\n\nA PFAS-free barrier that runs at line speed settles the technical argument. The commercial one stays open: which buyers move before the 2026 deadline forces them, and which will wait however good the coating is.\n\nMy sense is the early movers sort by who carries the qualification risk rather than by segment size. A converter that owns its spec can commit; one waiting on a brand owner cannot, whatever it thinks of the chemistry.\n\nFutureBridge reads demand like this by going directly to converters and brand owners before the volume is visible anywhere else.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
+  inmail: 'Hi [First name],\n\nWhich converters will qualify a PFAS-free barrier before the 2026 deadline forces the issue, and which will wait however strong the chemistry? My sense is the split follows who owns the spec rather than segment size, and that it can be read in advance from the converters themselves. That reading is the kind of ground-level work FutureBridge does. If this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
+},
+{
+  id: 'kp3', wedge: 3,
+  role: 'Water Solutions leader, municipal and industrial coagulants, Europe',
+  owns: 'Growth of the European coagulant and polymer business, the SIDRA footprint once the deal clears, and the case for where Western and Central European capacity and sales effort go next.',
+  pressures: 'A doubling ambition that must be won partly in tender markets that reward price; folding a family-owned coagulant maker into a listed group without losing its customer relationships; discharge and micropollutant rules changing what utilities specify, at different speeds by country.',
+  subject: 'Where tighter water rules become orders',
+  email: 'Hi [First name],\n\nTighter discharge and micropollutant rules are moving through European water at very different speeds, and the gap between a rule announced and a spec changed is where the commercial questions sit.\n\nOne question worth testing: which utilities and industrial operators are re-specifying treatment programmes already, and which are waiting on enforcement, budget cycles or a neighbouring plant to move first. The answer likely differs sharply between Germany, the Nordics and Southern Europe.\n\nFutureBridge goes directly to the operators and specifiers to read that sequence before it reaches tender records.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
+  inmail: 'Hi [First name],\n\nBetween a water rule announced and a treatment spec changed sits a lag that differs by country, and reading it well decides where next year\'s sales effort lands. Which European utilities are re-specifying now, and which are waiting on enforcement or budgets? FutureBridge puts that question to the operators directly. If this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
+},
+{
+  id: 'kp4', wedge: 4,
+  role: 'Strategy or growth leader, renewable solutions programme',
+  owns: 'The path to the renewable revenue ambition: which renewable chemistries and routes get investment, which partnerships advance, and how progress is evidenced to the board.',
+  pressures: 'Separating paying demand from stated interest in renewable chemistry; sequencing 4 declared growth routes with finite development resource; premium willingness that shifts by application and region; partners and customers each reading the same market differently.',
+  subject: 'Renewable demand, stated and real',
+  email: 'Hi [First name],\n\nRenewable chemistry programmes tend to collect encouraging conversations. The harder currency is a customer who accepts a price, a spec and a switching cost in the same sentence.\n\nA question worth pressure-testing: in which applications does renewable content already win the order on its own, and in which does it only break ties once price and performance are settled? My sense is the honest map is smaller than the pipeline suggests, and worth more.\n\nFutureBridge does this kind of demand testing by putting the buying question directly to the people who sign.\n\nIf this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.',
+  inmail: 'Hi [First name],\n\nIn which applications does renewable content win the order on its own, and in which does it only break ties once price and performance are settled? My sense is the honest map is smaller than any pipeline suggests, and worth more to a 2030 plan. FutureBridge asks that buying question directly of the people who sign. If this is useful to discuss near-term, we\'d welcome a 30-minute meeting at a date and time of your choosing.'
+}
+];
+
+ACCOUNT_KEMIRA.sources = [
+['S1','Financial Statements Bulletin 2025: solid profitability in a continued weak market environment','Kemira, February 2026','https://www.kemira.com/news-and-stories/newsroom/releases/kemira-oyjs-financial-statements-bulletin-2025-solid-profitability-in-a-continued-weak-market-environment/'],
+['S2','Business units and markets','Kemira investor pages, read 7 September 2026','https://www.kemira.com/investors/kemira-as-an-investment/business-units-markets/'],
+['S3','Kemira Q4 2025 results slides coverage','Investing.com, February 2026','https://www.investing.com/news/company-news/kemira-q4-2025-slides-solid-profitability-despite-revenue-decline-93CH-4502039'],
+['S4','Kemira dives deeper into industrial water with Water Engineering, Inc. acquisition','Bluefield Research, September 2025','https://www.bluefieldresearch.com/research/kemira-dives-deeper-into-industrial-water-with-water-engineering-inc-acquisition/'],
+['S5','Kemira acquires AquaBlue, Inc.','Kemira release, 9 January 2026','https://www.kemira.com/news-and-stories/newsroom/releases/kemira-acquires-aquablue-inc/'],
+['S6','Kemira strengthens its Water Solutions business with the acquisition of SIDRA Wasserchemie','Kemira release, February 2026','https://www.kemira.com/news-and-stories/newsroom/releases/kemira-strengthens-its-water-solutions-business-with-the-acquisition-of-sidra-wasserchemie/'],
+['S7','Growth drivers','Kemira investor pages, read 7 September 2026','https://www.kemira.com/investors/kemira-as-an-investment/growth-drivers/'],
+['S8','FennoGuard GO barrier coating for food packaging: 10 questions answered','Kemira stories','https://www.kemira.com/stories/fennoguard-go-barrier-coating-for-food-packaging-10-questions-answered/'],
+['S9','Kemira and PA Consulting develop renewable barrier coatings for flexible food packaging','Packaging Europe','https://packagingeurope.com/news/kemira-and-pa-consulting-develop-renewable-barrier-coatings-for-flexible-food-packaging/11119.article'],
+['S10','Making a sustainable impact: biomass-balanced wet strength additives','Kemira stories','https://www.kemira.com/stories/making-a-sustainable-impact-biomass-balanced-wet-strength-additives/'],
+['S11','Kemira Annual Review 2025','Kemira, February 2026','https://www.kemira.com/app/uploads/2026/02/kemira-annual-review-2025.pdf'],
+['S12','US buy takes Kemira into industrial water treatment services','Speciality Chemicals Magazine, 2025','https://www.specchemonline.com/news/us-buy-takes-kemira-industrial-water-treatment-services']
+];
+
+ACCOUNT_KEMIRA.evidenceRules = {
+  loadBearing: [
+    'Full-year 2025 revenue EUR 2,753.5m, operative EBITDA EUR 524.6m at a 19.1% margin, around 4,900 employees, 2026 outlook of EUR 2,600m to 3,000m revenue and EUR 470m to 570m operative EBITDA. [S1]',
+    '3 business units with approximate revenue shares: Water Solutions 45%, Packaging and Hygiene Solutions 35%, Fiber Essentials 20%; stated market positions number 1 in European coagulants and polymers, top 3 in North America, number 2 globally in packaging chemistry. [S2]',
+    'Water Engineering, Inc. acquired for approximately USD 150m, completed October 2025: US industrial water and wastewater services across food and beverage, manufacturing and healthcare. [S4][S12]',
+    'AquaBlue, Inc. acquisition completed January 2026: Ohio-based industrial water services, about USD 9m expected 2025 revenue. [S5]',
+    'SIDRA Wasserchemie acquisition announced February 2026 for approximately EUR 75m, around EUR 40m 2024 revenue, close expected H1 2026 pending German cartel approval. [S6]',
+    'Stated ambition to double water-related revenue; renewable solutions revenue target of EUR 500m by the end of 2030 through 4 declared routes; oil and gas chemicals divested February 2024. [S4][S7]',
+    'FennoGuard GO is marketed as a PFAS-free dispersion barrier coating with claimed recyclability and repulpability and proven runnability on paper, board and converting lines. [S8]'
+  ],
+  neverQuote: [
+    'Deal multiples, integration assessments or any valuation arithmetic inferred from the acquisition figures.',
+    'Third-party analyst commentary, including the Bluefield reading of Kemira strategy, as if it were Kemira\'s own statement.',
+    'Business unit margin comparisons in outreach; the Q4 2025 unit margins inform prioritisation context only.',
+    'Any characterisation of SIDRA integration progress while the deal awaits clearance.'
+  ],
+  bannedNumbers: [
+    'Market share percentages (25%, 20%, 15%) in outreach; they are Kemira\'s own investor-page claims and read as recited homework in an email.',
+    'SIDRA EBITDA of about EUR 10m; reported by deal coverage, not needed in any conversation.',
+    'AquaBlue headcount; small enough to identify individuals.',
+    'Q4 2025 unit operative EBITDA margins (18.5%, 12.3%, 27.4%) in outreach.'
+  ]
+};
+
+ACCOUNT_KEMIRA.checkGate = 'The research cut-off is 7 September 2026. Kemira reports quarterly; before any meeting or outreach after the next interim report, recheck revenue, unit commentary, the SIDRA clearance status and any new water services acquisitions. The studio holds no later figures and none may be invented.';
+
+ACCOUNT_KEMIRA.modelContext = [
+'ACCOUNT CONTEXT: Kemira Oyj, Helsinki, listed on Nasdaq Helsinki, President and CEO Antti Salminen. FY2025 revenue EUR 2,753.5m (down 5%), operative EBITDA EUR 524.6m (19.1% margin), around 4,900 employees. 2026 outlook: revenue EUR 2,600-3,000m, operative EBITDA EUR 470-570m.',
+'3 business units: Water Solutions (about 45% of sales; coagulants, polymers and industrial water services; number 1 in European coagulants and polymers, top 3 North America), Packaging and Hygiene Solutions (about 35%; paper, board and tissue chemistry; number 2 globally), Fiber Essentials (about 20%; bleaching chemicals and sodium chlorate).',
+'Strategic tilt toward water: oil and gas divested February 2024; ambition to double water-related revenue. Acquisitions: Water Engineering, Inc. (USD 150m, completed October 2025, US industrial water services, food and beverage, manufacturing, healthcare), AquaBlue, Inc. (completed January 2026, Ohio, about USD 9m revenue), SIDRA Wasserchemie (announced February 2026, EUR 75m, German coagulants, close expected H1 2026 pending cartel approval), Norit activated carbon reactivation UK plus planned Sweden plant.',
+'Packaging: FennoGuard GO PFAS-free dispersion barrier coating (recyclable, repulpable, foodservice board, takeaway, bakery, pet food), Fennobio bio-based line, PA Consulting collaboration on renewable barrier coatings, biomass-balanced wet strength additives. The 2026 European food-contact regulation moment is the demand backdrop.',
+'Renewables: EUR 500m renewable solutions revenue targeted by end of 2030 via 4 routes, including the alpha-glucan platform with IFF (since 2020).',
+'EVIDENCE DISCIPLINE: use only the load-bearing claims; never quote deal multiples, unit margin comparisons, third-party analyst readings as Kemira statements, or market share percentages in outreach. Where the record is silent, frame the idea as a question or hypothesis, never as gathered evidence.'
+].join('\n');
+
+/* ============================================================
    ACCOUNT REGISTRY. Built-in full studios plus lightweight
    overview accounts created from uploaded documents.
    ============================================================ */
 
 var BUILTIN_ACCOUNTS = [
   { id: 'ecolab', name: 'Ecolab', practice: 'Chemicals and Natural Resources', type: 'studio', layer: ACCOUNT_ECOLAB },
-  { id: 'solenis', name: 'Solenis', practice: 'Chemicals and Natural Resources', type: 'studio', layer: ACCOUNT_SOLENIS }
+  { id: 'solenis', name: 'Solenis', practice: 'Chemicals and Natural Resources', type: 'studio', layer: ACCOUNT_SOLENIS },
+  { id: 'kemira', name: 'Kemira', practice: 'Chemicals and Natural Resources', type: 'studio', layer: ACCOUNT_KEMIRA }
 ];
 
 function overviewAccounts(){ return Store.getJSON('hub_accounts', []); }
@@ -2335,11 +2516,11 @@ App.activityRefresh = function(){
 };
 
 /* ---------- New account studio, super admin only ---------- */
-var LAYER_SCHEMA_NOTE = 'The account layer JSON needs: company (string); briefDate (string); summaryHtml (the Account summary page as HTML using the studio card markup); wedges (array of {rank, title, decision, actors, timing, findOut, boundary}); profiles (array of {id, wedge, role, owns, pressures, subject, email, inmail} where email ends with the exact close sentence and carries no sign-off block); sources (array of [id, title, publisher, url]); evidenceRules ({loadBearing:[], neverQuote:[], bannedNumbers:[]}); modelContext (the condensed facts handed to the writer, with hard boundaries).';
+var LAYER_SCHEMA_NOTE = 'The account layer JSON needs: company (string); briefDate (string); summaryHtml (the Account summary page as HTML in the studio card markup: an h1 that reads like a conclusion, a source-note paragraph, several div class card sections with h2 headings, p and table class grid where tabular, and details class xd blocks each holding a summary element plus a div class xd-body for the deeper click-level detail, exactly as the Ecolab and Solenis summaries do); wedges (array of {rank, title, decision, actors, timing, findOut, boundary, confidence: HIGH or MEDIUM-HIGH or MEDIUM, detail: {consequence, whyExternal, signals, question}}); profiles (array of {id, wedge, role, owns, pressures, subject, email, inmail} where email ends with the exact close sentence and carries no sign-off block); sources (array of [id, title, publisher, url]); evidenceRules ({loadBearing:[], neverQuote:[], bannedNumbers:[]} with real entries, never empty); modelContext (the condensed facts handed to the writer, ending with the evidence discipline boundaries).';
 function layerTemplate(){
   return JSON.stringify({
     company: 'Account name', briefDate: 'date of the brief', summaryHtml: '<h1>Heading that reads like a conclusion</h1><div class="card"><h2>Section</h2><p>Content traced to the brief.</p></div>',
-    wedges: [{ rank: 1, title: '', decision: '', actors: '', timing: '', findOut: '', boundary: '' }],
+    wedges: [{ rank: 1, title: '', decision: '', actors: '', timing: '', findOut: '', boundary: '', confidence: 'HIGH', detail: { consequence: '', whyExternal: '', signals: '', question: '' } }],
     profiles: [{ id: 'p1', wedge: 1, role: '', owns: '', pressures: '', subject: 'three to seven plain words', email: 'Hi [First name],\n\n...\n\n' + CLOSE_SENTENCE, inmail: 'Hi [First name],\n\n...\n\n' + CLOSE_SENTENCE }],
     sources: [['S1', 'title', 'publisher, date', 'https://']],
     evidenceRules: { loadBearing: [], neverQuote: [], bannedNumbers: [] },
@@ -2372,8 +2553,102 @@ function sanitizeLayer(L){
   L.summaryHtml = String(L.summaryHtml).replace(/<script[\s\S]*?<\/script>/gi, '').replace(/ on[a-z]+="[^"]*"/gi, '');
   L.evidenceRules = L.evidenceRules || { loadBearing: [], neverQuote: [], bannedNumbers: [] };
   (L.profiles || []).forEach(function(p, i){ p.id = p.id || ('np' + (i + 1)); p.wedge = p.wedge || (i + 1); });
+  (L.wedges || []).forEach(function(w){ if (w.confidence !== 'HIGH' && w.confidence !== 'MEDIUM-HIGH' && w.confidence !== 'MEDIUM') w.confidence = 'MEDIUM'; });
   return L;
 }
+
+/* Extract the text of a .docx in the browser: minimal zip walk to
+   word/document.xml, inflate with the built-in DecompressionStream,
+   strip the XML. No libraries; works in every current browser. */
+function docxExtractText(buf){
+  return new Promise(function(resolve, reject){
+    try {
+      var dv = new DataView(buf); var u8 = new Uint8Array(buf);
+      var i = buf.byteLength - 22; var found = -1;
+      var min = Math.max(0, buf.byteLength - 22 - 65536);
+      for (; i >= min; i--){ if (dv.getUint32(i, true) === 0x06054b50){ found = i; break; } }
+      if (found < 0) throw new Error('no zip directory in the file');
+      var count = dv.getUint16(found + 10, true);
+      var p = dv.getUint32(found + 16, true);
+      var entry = null;
+      for (var n = 0; n < count; n++){
+        if (dv.getUint32(p, true) !== 0x02014b50) break;
+        var method = dv.getUint16(p + 10, true);
+        var csize = dv.getUint32(p + 20, true);
+        var nlen = dv.getUint16(p + 28, true);
+        var elen = dv.getUint16(p + 30, true);
+        var clen = dv.getUint16(p + 32, true);
+        var lho = dv.getUint32(p + 42, true);
+        var nm = '';
+        for (var q = 0; q < nlen; q++) nm += String.fromCharCode(u8[p + 46 + q]);
+        if (nm === 'word/document.xml'){ entry = { method: method, csize: csize, lho: lho }; break; }
+        p += 46 + nlen + elen + clen;
+      }
+      if (!entry) throw new Error('word/document.xml not found; is this a Word file?');
+      var lp = entry.lho;
+      if (dv.getUint32(lp, true) !== 0x04034b50) throw new Error('damaged zip entry');
+      var start = lp + 30 + dv.getUint16(lp + 26, true) + dv.getUint16(lp + 28, true);
+      var comp = u8.subarray(start, start + entry.csize);
+      var done = function(xmlBytes){
+        var xml = new TextDecoder('utf-8').decode(xmlBytes);
+        var text = xml
+          .replace(/<w:tab[^>]*\/>/g, '\t')
+          .replace(/<\/w:p>/g, '\n')
+          .replace(/<[^>]+>/g, '')
+          .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+          .replace(/\n{3,}/g, '\n\n').trim();
+        resolve(text);
+      };
+      if (entry.method === 0){ done(comp); return; }
+      if (entry.method !== 8) throw new Error('unsupported compression method');
+      if (typeof DecompressionStream === 'undefined') throw new Error('this browser cannot inflate zip data');
+      var stream = new Blob([comp]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+      new Response(stream).arrayBuffer().then(function(out){ done(new Uint8Array(out)); }).catch(reject);
+    } catch(e){ reject(e); }
+  });
+}
+function bytesToB64(u8){
+  var bin = ''; var CH = 0x8000;
+  for (var i = 0; i < u8.length; i += CH) bin += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+  return btoa(bin);
+}
+App.nsReadFile = function(input){
+  var f = input.files[0]; if (!f) return;
+  App.nsFileErr = false;
+  var reader = new FileReader();
+  reader.onload = function(){
+    var buf = reader.result;
+    var u8 = new Uint8Array(buf);
+    var b64 = bytesToB64(u8);
+    var isDocx = /\.docx$/i.test(f.name);
+    var mime = isDocx ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      : /\.html?$/i.test(f.name) ? 'text/html' : 'text/plain';
+    var finish = function(text){
+      text = String(text || '').replace(/\r/g, '').replace(/[ \t]+/g, ' ').trim();
+      if (text.length < 200){
+        App.nsFileErr = true; App.nsBriefText = ''; App.nsDoc = null;
+        App.nsFileNote = 'Only ' + wordCount(text) + ' words could be read from ' + f.name + ', which is too thin to derive a studio from. Check the file, or paste the text below.';
+      } else {
+        App.nsBriefText = text;
+        App.nsDoc = { name: f.name, b64: b64, mime: mime, label: 'The original account overview uploaded on ' + fmtDate(nowIso()) + ', the source document behind this studio.' };
+        App.nsFileNote = 'Read ' + wordCount(text) + ' words from ' + f.name + '. It will be used as the brief, and the document itself becomes the studio\'s downloadable source brief, exactly as in Ecolab and Solenis.';
+      }
+      render();
+    };
+    if (isDocx){
+      docxExtractText(buf).then(finish).catch(function(e){
+        App.nsFileErr = true; App.nsBriefText = ''; App.nsDoc = null;
+        App.nsFileNote = 'Could not read ' + f.name + ' in this browser (' + e.message + '). Save it as .txt and upload that, or paste the text below.';
+        render();
+      });
+    } else {
+      var text = new TextDecoder('utf-8').decode(u8);
+      if (/\.html?$/i.test(f.name)) text = text.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ');
+      finish(text);
+    }
+  };
+  reader.readAsArrayBuffer(f);
+};
 PAGES.newstudio = function(){
   if (!isSuper()) return '<p class="muted">Nothing to show.</p>';
   var h = '<h1>New account studio</h1><p class="muted">Creates a complete studio, with the full writing, research, audit and sequence machinery, from an account layer. No development is needed: generate the layer here from a pasted brief, or paste a layer JSON prepared outside. The new studio runs on exactly the same rules, design and settings as Ecolab and Solenis: same writing standard, same enforcement, same access levels, same keys.</p>';
@@ -2383,7 +2658,7 @@ PAGES.newstudio = function(){
   if (App.nsPreview){
     var P = App.nsPreview;
     h += '<div class="card"><h2>Ready to create: ' + esc(P.name) + '</h2>';
-    h += '<p class="small muted">' + (P.layer.profiles || []).length + ' role profiles, ' + (P.layer.wedges || []).length + ' wedges, ' + (P.layer.sources || []).length + ' sources. Brief date: ' + esc(P.layer.briefDate || 'not stated') + '.</p>';
+    h += '<p class="small muted">' + (P.layer.profiles || []).length + ' role profiles, ' + (P.layer.wedges || []).length + ' wedges, ' + (P.layer.sources || []).length + ' sources. Brief date: ' + esc(P.layer.briefDate || 'not stated') + '. Source document: ' + (P.layer.doc ? esc(P.layer.doc.name) + ', downloadable in the studio' : 'none attached') + '.</p>';
     (P.layer.profiles || []).forEach(function(p){
       var v = scanDraft({ subject: p.subject, email: p.email, inmail: p.inmail }, {});
       h += '<div class="check-line">' + (v.length ? '<span class="ic fail">FAIL</span>' : '<span class="ic pass">PASS</span>') + '<span><b>' + esc(p.role) + '.</b> Email ' + wordCount(p.email) + ' words, InMail ' + wordCount(p.inmail) + ' words.' + (v.length ? ' ' + esc(v[0]) : ' Passes the mechanical scan.') + '</span></div>';
@@ -2391,11 +2666,13 @@ PAGES.newstudio = function(){
     h += '<div class="row2" style="margin-top:12px;"><button class="primary" onclick="App.saveNewStudio()">Create the studio</button>' +
       '<button onclick="App.nsPreview=null;render()">Discard</button></div></div>';
   }
-  h += '<div class="card"><h2>Generate the layer from a brief</h2>' +
-    '<p class="small muted">Paste the account brief text. The studio derives the summary, wedges, profiles and baked drafts under the house method, runs the mechanical scan and the repair pass, and shows a preview before anything is created. Needs the Anthropic key in Settings; a long brief takes a minute or two.</p>' +
+  h += '<div class="card"><h2>Generate the studio from an account overview</h2>' +
+    '<p class="small muted">Upload the account overview document (.docx, .txt, .md or .html), or paste the brief text below. The studio reads the document in the browser, derives the detailed summary with its expandable sections, the ranked wedges, the role profiles and their baked drafts under the full house method including the latest practice rules, runs the mechanical scan and the repair pass, and shows a preview before anything is created. An uploaded document also becomes the studio\'s downloadable source brief. A long overview takes a minute or two.</p>' +
     '<div class="row2"><input type="text" id="ns-name" placeholder="Account name" style="max-width:240px;"><input type="text" id="ns-practice" value="Chemicals and Natural Resources" style="max-width:280px;"></div>' +
-    '<label class="f">Account brief text</label><textarea id="ns-brief" rows="10" placeholder="Paste the full account brief"></textarea>' +
-    '<div class="row2" style="margin-top:10px;"><button class="primary" onclick="App.genStudioLayer()">Generate account layer</button></div></div>';
+    '<label class="f">Account overview document</label><input type="file" id="ns-file" accept=".docx,.txt,.md,.html" onchange="App.nsReadFile(this)">' +
+    (App.nsFileNote ? '<div class="banner ' + (App.nsFileErr ? 'err' : 'ok') + '" style="margin-top:8px;">' + esc(App.nsFileNote) + '</div>' : '') +
+    '<label class="f">Or paste the account brief text</label><textarea id="ns-brief" rows="10" placeholder="Paste the full account brief">' + esc(App.nsBriefPaste || '') + '</textarea>' +
+    '<div class="row2" style="margin-top:10px;"><button class="primary" onclick="App.genStudioLayer()">Generate account studio</button></div></div>';
   h += '<div class="card"><h2>Or paste a prepared account layer JSON</h2>' +
     '<p class="small muted">' + esc(LAYER_SCHEMA_NOTE) + '</p>' +
     '<textarea id="ns-json" rows="7" placeholder="Paste the account layer JSON"></textarea>' +
@@ -2419,14 +2696,16 @@ App.createStudioFromJSON = function(){
 App.genStudioLayer = function(){
   var name = document.getElementById('ns-name').value.trim();
   var practice = document.getElementById('ns-practice').value.trim();
-  var brief = document.getElementById('ns-brief').value.trim();
+  var pasted = document.getElementById('ns-brief').value.trim();
+  App.nsBriefPaste = pasted;
+  var brief = (App.nsBriefText && App.nsBriefText.length >= 200) ? App.nsBriefText : pasted;
   if (!name){ alert('Give the account a name.'); return; }
-  if (brief.length < 600){ alert('Paste the full account brief; this one looks too short to derive a layer from.'); return; }
+  if (brief.length < 600){ alert('Upload the account overview or paste the full brief; what is here looks too short to derive a studio from.'); return; }
   App.nsBusy = 'Deriving the account layer from the brief. This runs the full writing method and can take a minute or two.';
   App.nsError = ''; App.nsPreview = null; render();
-  var sys = 'You build account layers for the FutureBridge Account Studio Hub. Derive everything only from the supplied brief; where the brief is silent, stay silent. ' + LAYER_SCHEMA_NOTE +
-    ' The account summary uses the studio markup (h1 heading that reads like a conclusion, then div.card sections with h2 headings, p, and table.grid where tabular) and the Siva Standard: no em dashes, no hype, every figure from the brief. Three to five wedges ranked by nearness of the decision; one role profile per leading wedge. Baked drafts follow the writing method exactly.\n\n' + WRITER_METHOD + '\n\nReturn strict JSON only.';
-  callForJSON({ system: sys, messages: [{ role: 'user', content: 'Account name: ' + name + '\n\nACCOUNT BRIEF:\n' + brief.slice(0, 60000) + '\n\nReturn the account layer JSON only.' }], maxTokens: 8000 }, 'account layer generation')
+  var sys = 'You build account layers for the FutureBridge Account Studio Hub, to the same depth and structure as its Ecolab and Solenis studios. Derive everything only from the supplied overview; where it is silent, stay silent and treat the gap as a question to ask, never a number to invent. ' + LAYER_SCHEMA_NOTE +
+    ' Depth requirements: the summary carries at least 4 card sections (scale and ownership; the business and its units, with a table where the overview supports one; the strategic moves or pressures in play; how to read this account), plus at least 2 details class xd expandable sections holding the deeper click-level material. Headings read like conclusions. The Siva Standard throughout: no em dashes, no hype, digits for numbers, every figure from the overview. 3 to 5 wedges ranked by nearness of the decision, each with confidence and the full detail block. 1 role profile per leading wedge. evidenceRules must be populated: load-bearing claims with their figures, what is never quoted, which numbers stay out of outreach. modelContext condenses the facts for the writer and ends with the evidence boundaries. Baked drafts follow the writing method below exactly, including the promise rule: never offer analysis that does not exist; frame our vantage as hypotheses and open questions.\n\n' + WRITER_METHOD + '\n\nReturn strict JSON only.';
+  callForJSON({ system: sys, messages: [{ role: 'user', content: 'Account name: ' + name + '\n\nACCOUNT OVERVIEW:\n' + brief.slice(0, 60000) + '\n\nReturn the account layer JSON only.' }], maxTokens: 12000 }, 'account layer generation')
     .then(function(L){
       var errs = validateLayer(L);
       if (errs.length) throw new Error('The generated layer was incomplete: ' + errs.join(' '));
@@ -2443,6 +2722,7 @@ App.genStudioLayer = function(){
         });
       });
       return chain.then(function(){
+        if (App.nsDoc) L.doc = App.nsDoc;
         App.nsBusy = '';
         App.nsPreview = { name: name, practice: practice, layer: L };
         Log.add('generate', 'account layer generated: ' + name);
@@ -2460,7 +2740,7 @@ App.saveNewStudio = function(){
   saveOverviewAccounts(list);
   Cloud.pushHubAccount(a);
   Log.add('edit', 'account studio created: ' + P.name);
-  App.nsPreview = null;
+  App.nsPreview = null; App.nsBriefText = ''; App.nsDoc = null; App.nsFileNote = ''; App.nsBriefPaste = '';
   App.goHome();
 };
 
@@ -2487,7 +2767,7 @@ App.downloadDoc = function(acctId){
   var bin = atob(doc.b64);
   var bytes = new Uint8Array(bin.length);
   for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  var blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+  var blob = new Blob([bytes], { type: doc.mime || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
   var el = document.createElement('a');
   el.href = URL.createObjectURL(blob);
   el.download = doc.name || 'account-overview.docx';
@@ -3823,7 +4103,7 @@ PAGES.sources = function(){
   h += '<div class="card"><h2>Numbers banned from outreach</h2><ul>';
   ACCT().evidenceRules.bannedNumbers.forEach(function(x){ h += '<li>' + esc(x) + '</li>'; });
   h += '</ul></div>';
-  h += '<div class="card"><h2>The manual check gate</h2><p>Q2 2026 results were scheduled for 28 July 2026, after the brief cut-off. Before any meeting or outreach after that date, recheck the Q2 release, supplemental and earnings-call commentary: segment momentum, post-close leverage, surcharge recovery and integration language may all have moved. The studio holds no Q2 figures and none may be invented.</p></div>';
+  h += '<div class="card"><h2>The manual check gate</h2><p>' + esc(ACCT().checkGate || ('This overview\'s research cut-off is ' + (ACCT().briefDate || 'the brief date') + '. Before any meeting or outreach after the company\'s next results release, recheck the latest release and earnings commentary: figures, segment momentum and integration language may all have moved. The studio holds no later figures and none may be invented.')) + '</p></div>';
   h += '<div class="card"><h2>Source register</h2><table class="grid"><tr><th>ID</th><th>Source</th><th>Publisher and date</th></tr>';
   ACCT().sources.forEach(function(s){
     h += '<tr><td>' + esc(s[0]) + '</td><td><a href="' + esc(s[3]) + '" target="_blank" rel="noopener">' + esc(s[1]) + '</a></td><td>' + esc(s[2]) + '</td></tr>';
