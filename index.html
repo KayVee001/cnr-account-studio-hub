@@ -1389,7 +1389,18 @@ var Cloud = {
    reliable direct route is a relay URL (a small forwarder holding the
    token). Without one, the studio attempts the direct call, and on the
    expected refusal falls back to the structured import file. */
+function batchStamp(){
+  /* Human readable and stable for the whole push: account plus the date. */
+  var a = accountById(App.account);
+  var name = (a && a.name) || App.account || 'Account';
+  var d = new Date();
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return name + ' ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+}
 function hubspotPayload(items){
+  var acct = accountById(App.account);
+  var acctName = (acct && acct.name) || App.account || '';
+  var stamp = batchStamp();
   return items.map(function(r){
     var c = contacts().filter(function(x){ return x.draftId === r.id; })[0] || {};
     var parts = String(r.contact || '').split(/\s+/);
@@ -1405,7 +1416,9 @@ function hubspotPayload(items){
       properties: {
         email: c.email || '', firstname: parts[0] || '', lastname: parts.slice(1).join(' '),
         jobtitle: r.title || c.title || '', company: r.company || '', city: c.city || '', country: c.country || '',
-        linkedin_url: c.linkedin || ''
+        linkedin_url: c.linkedin || '',
+        eas_account: acctName,
+        eas_batch: stamp
       },
       outreach: {
         subject1: r.subject, email1: fullEmail(r.body), inmail1: r.inmail || '',
@@ -4044,13 +4057,14 @@ App.pushHubspot = function(){
   hubspotPush(items).then(function(res){
     items.forEach(function(r){ Central.update(r.id, { pushed: nowIso() }); });
     ExportHist.add('HubSpot push (' + res.how + ')', App.account, items.length, exportMatrix(items));
-    App.exportNote = items.length + ' contact' + (items.length === 1 ? '' : 's') + ' pushed to HubSpot with their details and all generated messages' + (res.how === 'relay' ? ' through the relay.' : ' directly.');
+    App.exportNote = items.length + ' contact' + (items.length === 1 ? '' : 's') + ' pushed to HubSpot with their details and all generated messages' + (res.how === 'relay' ? ' through the relay.' : ' directly.') + ' In HubSpot they are stamped Studio batch "' + batchStamp() + '", which is how to find them as one group.';
     render();
   }).catch(function(e){
-    var head = ['Email','First Name','Last Name','Job Title','Company Name','City','Country','LinkedIn URL','Email Subject 1','Email Body 1','InMail 1','Email Subject 2','Email Body 2','InMail 2','Email Subject 3','Email Body 3','InMail 3'];
+    var head = ['Email','First Name','Last Name','Job Title','Company Name','City','Country','LinkedIn URL','Studio account','Studio batch','Email Subject 1','Email Body 1','InMail 1','Email Subject 2','Email Body 2','InMail 2','Email Subject 3','Email Body 3','InMail 3'];
     var lines = [head.join(',')];
     hubspotPayload(items).forEach(function(p){
       lines.push([p.properties.email, p.properties.firstname, p.properties.lastname, p.properties.jobtitle, p.properties.company, p.properties.city, p.properties.country, p.properties.linkedin_url,
+        p.properties.eas_account, p.properties.eas_batch,
         p.outreach.subject1, p.outreach.email1, p.outreach.inmail1 || 'Not generated',
         p.outreach.subject2 || 'Not generated', p.outreach.email2 || 'Not generated', p.outreach.inmail2 || 'Not generated',
         p.outreach.subject3 || 'Not generated', p.outreach.email3 || 'Not generated', p.outreach.inmail3 || 'Not generated'].map(csvCell).join(','));
