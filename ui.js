@@ -751,8 +751,13 @@ App.createOverview = function(){
 };
 App.deleteOverview = function(id){
   var a = accountById(id);
+  if (!a || !a.dynamic) return;
+  if (!confirm('Remove the account "' + a.name + '" from the hub on every device? Its drafts stay in the shared store but will no longer be reachable from a studio.')) return;
   saveOverviewAccounts(overviewAccounts().filter(function(x){ return x.id !== id; }));
-  Log.add('delete', 'overview account removed: ' + (a ? a.name : id));
+  /* The store keeps a small tombstone in the account's place, so the pull on
+     every sign in, on every device, drops it rather than restoring it. */
+  Cloud.pushHubAccount({ id: id, name: a.name, deleted: true, deletedBy: App.user, deletedAt: nowIso() });
+  Log.add('delete', 'account removed from the hub: ' + a.name);
   render();
 };
 

@@ -515,13 +515,19 @@ var Cloud = {
       var local = overviewAccounts();
       var byId = {};
       for (var i = 0; i < local.length; i++) byId[local[i].id] = i;
+      var gone = {};
       for (var j = 0; j < docs.length; j++){
         try {
           var a = JSON.parse(docs[j].fields.json.stringValue);
           if (!a.id) continue;
+          /* A deleted account leaves a tombstone in the store, so the
+             deletion reaches every device instead of the account coming
+             back on the next sign in. */
+          if (a.deleted){ gone[a.id] = true; continue; }
           if (byId[a.id] != null) local[byId[a.id]] = a; else local.push(a);
         } catch(e){}
       }
+      local = local.filter(function(x){ return !gone[x.id]; });
       saveOverviewAccounts(local);
       Cloud.setStatus('ok', 'Connected. ' + pulled + ' user record' + (pulled === 1 ? '' : 's') + ' pulled from the shared store.');
       return true;

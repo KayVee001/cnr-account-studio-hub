@@ -5,9 +5,10 @@
    ============================================================ */
 
 var BUILD = {
-  version: '2.2.0',
+  version: '2.2.1',
   date: '30 September 2026',
   notes: [
+    '2.2.1, 30 September 2026. Deleting an account created from Hub settings now removes it from the shared store as well, so it no longer returns on the next sign in. Files: core.js, ui.js, build.js.',
     '2.2.0, 30 September 2026. One accent treatment across the studio: the active rail item, the active tab, primary buttons and account tiles carry the red on the left edge of a light grey block. Files: index.html, build.js.',
     '2.1.0, 29 September 2026. Contact lists, research and edits are account level and sync to the shared store, with who and when on every change. Approvals stamped with time, approver and batch; Approved page grouped by day and batch. Downloads by access level. White design, light rail, full-width content. Files: core.js, ui.js, index.html.',
     '2.0.0, 24 September 2026. Split into separate files so each change touches one file. Connection moved to config.js. Added version stamp, diagnostics, backup and restore.',
