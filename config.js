@@ -13,6 +13,6 @@
    ============================================================ */
 
 var DEFAULT_FB = {
-  project: '',
-  key: ''
+  project: 'cnr-account-studio-hub',
+  key: 'AIzaSyDd_n9s9pUnYf2jw81GF9a8M8gbXqCuAwg'
 };
